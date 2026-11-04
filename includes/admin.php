@@ -215,7 +215,6 @@ function bfg_admin_page() {
 		<?php endif; ?>
 		<nav class="nav-tab-wrapper">
 			<a class="nav-tab <?php echo 'settings' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $base ); ?>">Nastavitve</a>
-			<a class="nav-tab <?php echo 'texts' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $base . '&tab=texts' ); ?>">Teksti</a>
 			<a class="nav-tab <?php echo 'stats' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $base . '&tab=stats' ); ?>">Statistika</a>
 		</nav>
 		<style>
@@ -234,7 +233,7 @@ function bfg_admin_page() {
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="bfg_save">
 			<?php wp_nonce_field( 'bfg_save' ); ?>
-			<div style="<?php echo 'texts' === $tab ? 'display:none' : ''; ?>">
+			<div>
 				<table class="form-table" role="presentation">
 					<tr><th>Akcija</th><td>
 						<label><input type="radio" name="schedule" value="off" <?php checked( $sched, 'off' ); ?>> Izklopljena</label><br>
@@ -281,22 +280,31 @@ function bfg_admin_page() {
 					</td></tr>
 				</table>
 			</div>
-			<div style="<?php echo 'texts' === $tab ? '' : 'display:none'; ?>">
-				<p class="description">Prazno polje = privzeti tekst za ta trg (prikazan sivo).</p>
+			<?php
+			$defaults = bfg_default_strings();
+			$saved    = $s['strings'] ?? array();
+			$labels   = bfg_string_labels();
+			$main     = array( 'event', 'title', 'title_sub', 'subtitle', 'note' );
+			$row      = function ( $k ) use ( $defaults, $saved, $labels ) {
+				?>
+				<tr><th><label for="bfg-s-<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $labels[ $k ][0] ); ?></label></th><td>
+					<input type="text" class="large-text" id="bfg-s-<?php echo esc_attr( $k ); ?>" name="strings[<?php echo esc_attr( $k ); ?>]" value="<?php echo esc_attr( $saved[ $k ] ?? '' ); ?>" placeholder="<?php echo esc_attr( $defaults[ $k ] ?? '' ); ?>">
+					<?php if ( $labels[ $k ][1] ) : ?><p class="description"><?php echo esc_html( $labels[ $k ][1] ); ?></p><?php endif; ?>
+				</td></tr>
+				<?php
+			};
+			?>
+			<h2>Teksti akcije</h2>
+			<p class="description">Prazno polje = privzeti tekst (prikazan sivo). Ostali teksti so že prevedeni za ta trg.</p>
+			<table class="form-table" role="presentation">
+				<?php foreach ( $main as $k ) { $row( $k ); } ?>
+			</table>
+			<details style="margin-top:12px">
+				<summary style="cursor:pointer;font-weight:600">Napredno: ostali teksti (gumbi, obvestila) – običajno ni treba spreminjati</summary>
 				<table class="form-table" role="presentation">
-					<?php
-					$defaults = bfg_default_strings();
-					$saved    = $s['strings'] ?? array();
-					foreach ( bfg_string_labels() as $k => $lbl ) :
-						$def = $defaults[ $k ] ?? '';
-						?>
-						<tr><th><label for="bfg-s-<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $lbl[0] ); ?></label></th><td>
-							<input type="text" class="large-text" id="bfg-s-<?php echo esc_attr( $k ); ?>" name="strings[<?php echo esc_attr( $k ); ?>]" value="<?php echo esc_attr( $saved[ $k ] ?? '' ); ?>" placeholder="<?php echo esc_attr( $def ); ?>">
-							<?php if ( $lbl[1] ) : ?><p class="description"><?php echo esc_html( $lbl[1] ); ?></p><?php endif; ?>
-						</td></tr>
-					<?php endforeach; ?>
+					<?php foreach ( array_keys( $labels ) as $k ) { if ( ! in_array( $k, $main, true ) ) { $row( $k ); } } ?>
 				</table>
-			</div>
+			</details>
 			<?php submit_button( 'Shrani' ); ?>
 		</form>
 		<script>
