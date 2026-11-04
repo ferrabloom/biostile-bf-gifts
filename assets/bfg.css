@@ -1,0 +1,79 @@
+/* Biostile BF Gifts – pop-up (po predlogu biostile-black-friday-popup.html) */
+#bfg-overlay{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#bfg-overlay[hidden]{display:none!important}
+body.bfg-open{overflow:hidden}
+#bfg-popup{font-family:Arial,Helvetica,sans-serif;color:#151515;width:100%;max-width:740px;max-height:calc(100vh - 32px);overflow-y:auto;background:#fff;border:1.5px solid #161616;border-radius:14px;box-shadow:0 12px 40px #00000030;position:relative;line-height:1.4;text-align:left}
+#bfg-popup *{box-sizing:border-box}
+#bfg-popup:focus{outline:none}
+#bfg-popup button{font:inherit;cursor:pointer;margin:0;letter-spacing:normal;text-transform:none}
+#bfg-popup .bfg-hero{padding:22px 24px 15px;position:relative}
+#bfg-popup .bfg-event{display:inline-block;color:#fff;background:#111;letter-spacing:1.2px;font-weight:700;font-size:11px;padding:6px 9px;border-radius:4px;margin-bottom:11px}
+#bfg-popup .bfg-close{position:absolute;right:8px;top:6px;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0;color:#111;font-size:28px;width:44px;height:44px;line-height:1;padding:0}
+#bfg-popup h2.bfg-title{font-size:28px;letter-spacing:-.7px;line-height:1.15;margin:0 0 8px;padding-right:36px;font-weight:750;color:#151515;text-transform:none}
+#bfg-popup .bfg-sub{font-size:16px;line-height:1.45;color:#505050;margin:0}
+#bfg-popup .bfg-sub strong{color:#151515}
+#bfg-popup .bfg-body{padding:0 24px 16px}
+#bfg-popup .bfg-cartrow{display:flex;justify-content:space-between;gap:8px;font-size:15px;margin-bottom:8px}
+#bfg-popup .bfg-cartrow strong{font-size:17px}
+#bfg-popup .bfg-progress{height:8px;border-radius:9px;background:#e5e5e5;overflow:hidden}
+#bfg-popup .bfg-fill{height:100%;background:#111;transition:width .25s}
+#bfg-popup .bfg-milestones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:9px 0 12px}
+#bfg-popup .bfg-milestone{padding:8px 3px;border-radius:6px;background:#fff;text-align:center;color:#333;font-size:14px;border:1px solid #252525}
+#bfg-popup .bfg-milestone b{display:block;font-size:17px;margin-bottom:3px}
+#bfg-popup .bfg-milestone.is-active{background:#151515;color:#fff;border-color:#151515}
+#bfg-popup .bfg-nudge{background:#f3f3f3;border-left:3px solid #111;padding:10px 12px;font-size:17px;margin-bottom:15px;color:#1a1a1a}
+#bfg-popup .bfg-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+#bfg-popup .bfg-head h3{margin:0;font-size:18px;letter-spacing:-.3px;color:#151515;text-transform:none}
+#bfg-popup .bfg-count{font-size:14px;color:#505050;white-space:nowrap}
+#bfg-popup .bfg-gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#bfg-popup .bfg-gift{border:1px solid #222;border-radius:8px;background:#fff;text-align:center;padding:8px 9px 9px;display:flex;flex-direction:column}
+#bfg-popup .bfg-gift.is-selected{background:#f1f1f1;border:2px solid #111;padding:7px 8px 8px}
+#bfg-popup .bfg-gift img{width:100%;height:90px;object-fit:contain;display:block;margin:6px auto;mix-blend-mode:multiply}
+#bfg-popup .bfg-name{font-size:15px;font-weight:700;margin:0 0 3px;color:#151515;line-height:1.2}
+#bfg-popup .bfg-size{font-size:13px;color:#505050;margin-bottom:6px;min-height:16px}
+#bfg-popup .bfg-price{display:flex;justify-content:center;align-items:center;gap:8px;margin:0 0 9px;font-size:16px;margin-top:auto}
+#bfg-popup .bfg-price del{color:#bb2027;text-decoration-color:#bb2027;text-decoration-thickness:2px;font-weight:600}
+#bfg-popup .bfg-price strong{color:#111;font-weight:750}
+#bfg-popup .bfg-choose{width:100%;min-height:42px;border-radius:5px;border:1px solid #111;color:#111;background:#fff;font-size:14px;font-weight:700;padding:6px 4px}
+#bfg-popup .is-selected .bfg-choose{background:#111;color:#fff}
+#bfg-popup .bfg-choose:disabled{opacity:.45;cursor:default}
+#bfg-popup .bfg-msg{font-size:13px;color:#bb2027;margin:10px 0 0}
+#bfg-popup .bfg-msg:empty{display:none}
+#bfg-popup .bfg-footer{padding:13px 24px 12px;border-top:1px solid #d6d6d6}
+#bfg-popup .bfg-cta,#bfg-popup .bfg-secondary{display:block;width:100%;min-height:48px;border-radius:7px;font-size:15px;font-weight:700;line-height:1.25;padding:14px 10px;text-align:center;margin:0}
+#bfg-popup .bfg-cta{background:#111;color:#fff;border:2px solid #111}
+#bfg-popup .bfg-secondary{background:#fff;color:#111;border:2px solid #111;margin-top:9px}
+#bfg-popup .bfg-note{font-size:12px;color:#505050;text-align:center;margin:8px 0 0}
+#bfg-popup.is-busy .bfg-gifts{opacity:.6;pointer-events:none}
+#bfg-popup button:focus-visible{outline:3px solid #777;outline-offset:3px}
+/* FunnelKit side cart: brez spreminjanja količine pri darilih */
+.fkcart-item-meta:has(.bfg-cart-badge) .fkcart-qty-wrap{display:none!important}
+.bfg-cart-badge{display:inline-block;background:#111;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle;letter-spacing:.5px}
+
+@media(max-width:480px){
+#bfg-overlay{padding:8px;align-items:flex-end}
+#bfg-popup{border-radius:12px;max-height:calc(100vh - 16px)}
+#bfg-popup .bfg-hero{padding:16px 14px 12px}
+#bfg-popup .bfg-event{font-size:10px;margin-bottom:9px;padding:5px 7px}
+#bfg-popup h2.bfg-title{font-size:23px;line-height:1.12}
+#bfg-popup .bfg-sub{font-size:14px}
+#bfg-popup .bfg-body{padding:0 12px 12px}
+#bfg-popup .bfg-cartrow{font-size:14px}#bfg-popup .bfg-cartrow strong{font-size:16px}
+#bfg-popup .bfg-milestones{gap:6px;margin:8px 0 10px}
+#bfg-popup .bfg-milestone{font-size:13px;padding:7px 2px}#bfg-popup .bfg-milestone b{font-size:16px}
+#bfg-popup .bfg-nudge{font-size:15px;padding:9px 10px;margin-bottom:12px}
+#bfg-popup .bfg-head h3{font-size:16px}#bfg-popup .bfg-count{font-size:12px}
+#bfg-popup .bfg-gifts{display:flex;flex-direction:column;gap:7px}
+#bfg-popup .bfg-gift{display:grid;grid-template-columns:54px minmax(0,1fr) 100px;grid-template-rows:auto auto auto;align-items:center;column-gap:10px;padding:8px 10px;text-align:left}
+#bfg-popup .bfg-gift.is-selected{padding:7px 9px}
+#bfg-popup .bfg-gift img{grid-column:1;grid-row:1/4;width:54px;height:58px;margin:0}
+#bfg-popup .bfg-name{grid-column:2;grid-row:1;font-size:15px;margin:0}
+#bfg-popup .bfg-size{grid-column:2;grid-row:2;font-size:12px;min-height:0;margin:0}
+#bfg-popup .bfg-price{grid-column:2;grid-row:3;justify-content:flex-start;flex-wrap:wrap;gap:5px;margin:3px 0 0;font-size:14px}
+#bfg-popup .bfg-choose{grid-column:3;grid-row:1/4;font-size:13px;min-height:44px}
+#bfg-popup .bfg-footer{padding:11px 12px 10px}
+#bfg-popup .bfg-cta,#bfg-popup .bfg-secondary{font-size:14px;min-height:50px;padding:13px 8px}
+#bfg-popup .bfg-note{font-size:11px}
+}
+@media(max-width:350px){#bfg-popup .bfg-gift{grid-template-columns:44px minmax(0,1fr) 89px;column-gap:7px}#bfg-popup .bfg-gift img{width:44px}#bfg-popup .bfg-name{font-size:14px}}
+@media(prefers-reduced-motion:reduce){#bfg-popup .bfg-fill{transition:none}}

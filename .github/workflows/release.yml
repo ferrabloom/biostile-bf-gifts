@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preveri, da se verzija ujema s tagom
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          VER=$(grep -m1 -oP "Version:\s*\K[0-9.]+" biostile-bf-gifts.php)
+          echo "tag=$TAG plugin=$VER"
+          test "$TAG" = "$VER"
+
+      - name: PHP lint
+        run: find . -name '*.php' -not -path './lib/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Zgradi zip
+        run: |
+          mkdir -p build/biostile-bf-gifts
+          rsync -a --exclude .git --exclude .github --exclude build --exclude README.md ./ build/biostile-bf-gifts/
+          cd build && zip -rq biostile-bf-gifts.zip biostile-bf-gifts
+
+      - name: Objavi release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/biostile-bf-gifts.zip
+          generate_release_notes: true
