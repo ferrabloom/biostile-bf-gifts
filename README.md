@@ -15,7 +15,7 @@ Domena izbere trg v `includes/markets.php`:
 ## Posodobitve
 
 - **dev.biostile.si** sledi veji `dev` – vsak push je na voljo kot posodobitev.
-- **Live domene** sledijo GitHub Releases (`vX.Y.Z` tag → GitHub Action zgradi `biostile-bf-gifts.zip`).
+- **Live domene** sledijo GitHub Releases (push na `main` z novo verzijo → GitHub Action zgradi `biostile-bf-gifts.zip`).
 - Samodejne posodobitve so za ta plugin vklopljene (WP cron) – ali takoj z gumbom »Update« v Plugins.
 
 Zasebni repozitorij: v `wp-config.php` vsake domene
@@ -28,7 +28,7 @@ define( 'BFG_GITHUB_TOKEN', 'github_pat_...' ); // fine-grained, Contents: Read-
 
 1. Sprememba na veji `dev` → test na dev.biostile.si.
 2. Dvigni `Version` in `BFG_VERSION` v `biostile-bf-gifts.php`.
-3. Merge `dev` → `main`, tag `vX.Y.Z`, push tag.
+3. Merge `dev` → `main` – GitHub Action sam ustvari release `vX.Y.Z` (zip asset).
 
 ## Združljivost
 

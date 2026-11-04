@@ -1,8 +1,11 @@
 name: Release
 
+# Ob pushu na main: če verzija v biostile-bf-gifts.php še nima releasa,
+# zgradi zip in objavi release vX.Y.Z (tag ustvari GitHub sam).
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -12,25 +15,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Preveri, da se verzija ujema s tagom
+      - name: Verzija
+        id: ver
         run: |
-          TAG="${GITHUB_REF_NAME#v}"
           VER=$(grep -m1 -oP "Version:\s*\K[0-9.]+" biostile-bf-gifts.php)
-          echo "tag=$TAG plugin=$VER"
-          test "$TAG" = "$VER"
+          CONST=$(grep -m1 -oP "BFG_VERSION', '\K[0-9.]+" biostile-bf-gifts.php)
+          echo "plugin=$VER const=$CONST"
+          test "$VER" = "$CONST"
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VER" >/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: PHP lint
+        if: steps.ver.outputs.exists == 'false'
         run: find . -name '*.php' -not -path './lib/*' -print0 | xargs -0 -n1 php -l
 
       - name: Zgradi zip
+        if: steps.ver.outputs.exists == 'false'
         run: |
           mkdir -p build/biostile-bf-gifts
           rsync -a --exclude .git --exclude .github --exclude build --exclude README.md ./ build/biostile-bf-gifts/
           cd build && zip -rq biostile-bf-gifts.zip biostile-bf-gifts
 
       - name: Objavi release
+        if: steps.ver.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ steps.ver.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: v${{ steps.ver.outputs.version }}
           files: build/biostile-bf-gifts.zip
           generate_release_notes: true
