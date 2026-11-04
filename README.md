@@ -1,6 +1,15 @@
-# Biostile BF Gifts
+# BiostileGifts
 
-Black Friday pop-up z izbiro brezplačnih daril (1 / 2 / 3 darila po pragovih) za Biostile WooCommerce trge.
+Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) za Biostile WooCommerce trge.
+
+- **Način A** (privzeto): blok v FunnelKit košarici + pop-up ob »Zaključi nakup«, če darila niso izbrana.
+- **Način B**: pop-up takoj ob dodajanju v košarico.
+- »Izvedi več« odpre mini okno z opisom darila.
+
+## Admin
+
+Meni **BiostileGifts** (vsaka domena posebej): vklop/obdobje, način A/B, pragovi v valuti trga, darila (poteg za vrstni red, neobvezno ime/velikost), vsi teksti, predogled (`?bfg_preview=1`, samo admin), statistika.
+Nastavitve v adminu prepišejo privzete iz `includes/markets.php`.
 
 ## Trgi
 

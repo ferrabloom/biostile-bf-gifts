@@ -59,7 +59,7 @@ body.bfg-open{overflow:hidden}
 #bfg-popup .bfg-price{display:flex;justify-content:center;align-items:baseline;gap:8px;margin:auto 0 4px;font-size:15px}
 #bfg-popup .bfg-price del{color:var(--bfg-red);text-decoration-color:var(--bfg-red);text-decoration-thickness:2px;font-weight:600;font-size:14px}
 #bfg-popup .bfg-price strong{color:var(--bfg-green);font-weight:800;font-size:17px}
-#bfg-popup .bfg-more{display:inline-block;font-size:12px;font-weight:700;color:var(--bfg-green);margin:0 auto 8px;border-bottom:1px solid currentColor;line-height:1.3}
+#bfg-popup .bfg-more{background:none!important;border:0;border-bottom:1px solid currentColor!important;border-radius:0!important;padding:0!important;min-height:0!important;box-shadow:none!important;display:inline-block;font-size:12px;font-weight:700;color:var(--bfg-green);margin:0 auto 8px;border-bottom:1px solid currentColor;line-height:1.3}
 #bfg-popup .bfg-more:hover{color:var(--bfg-cta)}
 #bfg-popup .bfg-choose{width:100%;min-height:40px;border-radius:8px;border:1.5px solid var(--bfg-green);color:var(--bfg-green);background:#fff;font-size:14px;font-weight:800;padding:6px 4px}
 #bfg-popup .bfg-choose:hover:not(:disabled){background:#eef4ee}
@@ -78,6 +78,55 @@ body.bfg-open{overflow:hidden}
 #bfg-popup .bfg-secondary:hover{background:#eef4ee}
 #bfg-popup .bfg-note{grid-column:1/-1;font-size:11px;color:var(--bfg-muted);text-align:center;margin:0}
 #bfg-popup button:focus-visible,#bfg-popup a:focus-visible{outline:3px solid var(--bfg-clover);outline-offset:2px}
+
+/* Mini okno »Izvedi več« */
+#bfg-overlay .bfg-mini{position:fixed;inset:0;z-index:10;font-family:"Nunito Sans",Arial,Helvetica,sans-serif;color:var(--bfg-ink);line-height:1.4;text-align:left;background:rgba(8,10,9,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+#bfg-overlay .bfg-mini *{box-sizing:border-box}
+#bfg-overlay .bfg-mini button{font:inherit;cursor:pointer;margin:0;letter-spacing:normal;text-transform:none}
+#bfg-overlay .bfg-mini button:focus-visible{outline:3px solid var(--bfg-clover);outline-offset:2px}
+#bfg-overlay .bfg-mini-card{width:100%;max-width:420px;max-height:100%;overflow-y:auto;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+#bfg-overlay .bfg-mini-img{position:relative;background:#f3f6f1;display:flex;justify-content:center;padding:18px}
+#bfg-overlay .bfg-mini-img img{height:170px;width:auto;max-width:100%;object-fit:contain;mix-blend-mode:multiply}
+#bfg-overlay .bfg-mini-free{position:absolute;left:12px;top:12px;background:var(--bfg-cta);color:#fff;font-size:10px;font-weight:800;letter-spacing:.8px;padding:4px 7px;border-radius:4px}
+#bfg-overlay .bfg-mini-x{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%!important;background:#fff!important;border:0!important;color:var(--bfg-ink);font-size:20px;line-height:1;padding:0;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+#bfg-overlay .bfg-mini-c{padding:16px 18px 18px}
+#bfg-overlay .bfg-mini-c h3{margin:0;font-family:Montserrat,"Nunito Sans",Arial,sans-serif;font-size:20px;font-weight:800;color:var(--bfg-ink);text-transform:none;line-height:1.2}
+#bfg-overlay .bfg-mini-sz{color:var(--bfg-muted);font-size:13px;margin:2px 0 10px}
+#bfg-overlay .bfg-mini-desc{font-size:14px;line-height:1.5;color:#2d332f;margin:0 0 12px}
+#bfg-overlay .bfg-mini-pr{display:flex;gap:10px;align-items:baseline;margin-bottom:14px}
+#bfg-overlay .bfg-mini-pr del{color:var(--bfg-red);text-decoration-thickness:2px;font-weight:600}
+#bfg-overlay .bfg-mini-pr strong{color:var(--bfg-green);font-size:20px;font-weight:800}
+#bfg-overlay .bfg-mini-note{font-size:13px;margin:-4px 0 12px;color:var(--bfg-ink)}
+#bfg-overlay .bfg-mini-note strong{color:var(--bfg-cta)}
+#bfg-overlay .bfg-mini-btns{display:grid;grid-template-columns:1fr 1.4fr;gap:8px}
+#bfg-overlay .bfg-mini-back,#bfg-overlay .bfg-mini-pick{min-height:46px;border-radius:8px!important;font-weight:800;font-size:14px;padding:8px}
+#bfg-overlay .bfg-mini-back{background:#fff!important;color:var(--bfg-green)!important;border:1.5px solid var(--bfg-line)!important}
+#bfg-overlay .bfg-mini-pick{background:var(--bfg-cta)!important;color:#fff!important;border:0!important}
+#bfg-overlay .bfg-mini-pick.is-selected{background:#fff!important;color:var(--bfg-red)!important;border:1.5px solid var(--bfg-red)!important}
+#bfg-overlay .bfg-mini-pick:disabled{opacity:.4;cursor:default}
+
+/* Blok v FunnelKit košarici (način A) */
+.bfgb{margin:4px 12px 10px;border-radius:12px;overflow:hidden;border:1px solid #1C3A35;font-family:"Nunito Sans",Arial,Helvetica,sans-serif;color:#151816;line-height:1.35;text-align:left}
+.bfgb *{box-sizing:border-box}
+.bfgb-top{background:radial-gradient(120% 160% at 100% 0,rgba(146,200,62,.25),transparent 60%),#0c0e0d;color:#fff;padding:9px 12px;display:flex;align-items:center;gap:8px}
+.bfgb-clover{width:20px;height:20px;color:#92C83E;flex:0 0 20px}
+.bfgb-top b{font-size:12px;letter-spacing:1.2px;font-weight:800}
+.bfgb-top span{margin-left:auto;font-size:11px;color:#cfe0d6;text-align:right}
+.bfgb-body{padding:10px 12px 12px;background:#fff}
+.bfgb-msg{font-size:14px;margin-bottom:8px}.bfgb-msg strong{color:#CF5A3C}
+.bfgb-prog{height:8px;border-radius:8px;background:#e8ebe8;overflow:hidden}
+.bfgb-prog i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#1C3A35,#92C83E);transition:width .35s}
+.bfgb-ms{display:flex;justify-content:space-between;gap:4px;font-size:11px;color:#5b625e;margin:5px 0 9px}
+.bfgb-ms .on{color:#1C3A35;font-weight:800}
+.bfgb-chips{display:flex;gap:6px;margin-bottom:10px}
+.bfgb-chip{width:40px;height:40px;border-radius:8px;border:1.5px dashed #b9c4bd;display:flex;align-items:center;justify-content:center;color:#9aa39e;font-size:18px;font-weight:700}
+.bfgb-chip.is-open{border-color:#CF5A3C;color:#CF5A3C}
+.bfgb-chip.is-full{border:2px solid #1C3A35;background:#f4f8f2}
+.bfgb-chip img{width:32px;height:32px;object-fit:contain}
+.bfgb-chip svg{width:16px;height:16px}
+.bfgb .bfgb-btn{display:block;width:100%;background:#CF5A3C!important;color:#fff!important;border:0!important;border-radius:8px!important;padding:11px 8px!important;font-weight:800;font-size:14px;line-height:1.2;text-align:center;cursor:pointer;text-transform:none;letter-spacing:normal;box-shadow:none}
+.bfgb .bfgb-btn:hover{background:#b54a2f!important}
+.bfgb .bfgb-btn.is-done{background:#fff!important;color:#1C3A35!important;border:1.5px solid #1C3A35!important}
 
 /* Oznaka v košarici */
 .fkcart-item-meta:has(.bfg-cart-badge) .fkcart-qty-wrap{display:none!important}
@@ -121,4 +170,5 @@ body.bfg-open{overflow:hidden}
 #bfg-popup .bfg-note{font-size:10.5px}
 }
 @media(max-width:350px){#bfg-popup .bfg-gift{grid-template-columns:46px minmax(0,1fr) 84px;column-gap:7px}#bfg-popup .bfg-gift img{width:46px}#bfg-popup h2.bfg-title{font-size:24px}}
-@media(prefers-reduced-motion:reduce){#bfg-popup .bfg-fill,#bfg-popup .bfg-gift img{transition:none}}
+@media(max-width:560px){#bfg-overlay .bfg-mini{align-items:flex-end;padding:0}#bfg-overlay .bfg-mini-card{border-radius:16px 16px 0 0;max-width:none}#bfg-overlay .bfg-mini-img img{height:140px}#bfg-overlay .bfg-mini-c{padding-bottom:calc(18px + env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){.bfgb-prog i,#bfg-popup .bfg-fill,#bfg-popup .bfg-gift img{transition:none}}

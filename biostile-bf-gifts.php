@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Biostile BF Gifts
- * Description: Black Friday pop-up z izbiro brezplačnih daril (1 / 2 / 3 darila po pragovih). Deluje s FunnelKit Cart, Discount Rules in Biostile buybox kodo.
- * Version: 0.2.0
+ * Plugin Name: BiostileGifts
+ * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni BiostileGifts.
+ * Version: 0.3.0
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-bf-gifts
@@ -13,12 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '0.2.0' );
+define( 'BFG_VERSION', '0.3.0' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
 
 require_once __DIR__ . '/includes/markets.php';
+require_once __DIR__ . '/includes/admin.php';
 
 /* -------------------------------------------------------------------------
  * POSODOBITVE IZ GITHUBA
@@ -51,8 +52,19 @@ add_filter( 'auto_update_plugin', function ( $update, $item ) {
 }, 20, 2 );
 
 /* -------------------------------------------------------------------------
- * KONFIGURACIJA (includes/markets.php, dodatno prek filtra 'bfg_config')
+ * KONFIGURACIJA
+ *  privzeto: includes/markets.php (po domeni),
+ *  prepiše: nastavitve v adminu (meni BiostileGifts, opcija bfg_settings),
+ *  na koncu filter 'bfg_config'.
  * ---------------------------------------------------------------------- */
+
+/** Privzeti teksti trga (brez sprememb iz admina). */
+function bfg_default_strings() {
+	$markets = bfg_markets();
+	$market  = $markets[ bfg_market_key() ] ?? array();
+	return array_merge( bfg_strings_sl(), (array) ( $market['strings'] ?? array() ) );
+}
+
 function bfg_config() {
 	static $config = null;
 	if ( null !== $config ) {
@@ -62,7 +74,49 @@ function bfg_config() {
 	$key     = bfg_market_key();
 	$market  = $markets[ $key ] ?? array();
 	$config  = array_merge( bfg_market_defaults(), $market, array( 'market' => $key ) );
-	$config['strings'] = array_merge( bfg_strings_sl(), (array) ( $market['strings'] ?? array() ) );
+	$config['strings'] = bfg_default_strings();
+
+	$s = function_exists( 'bfg_settings' ) ? bfg_settings() : array();
+	if ( $s ) {
+		if ( isset( $s['schedule'] ) ) {
+			$config['enabled']   = 'off' !== $s['schedule'];
+			$config['always_on'] = 'always' === $s['schedule'];
+		}
+		foreach ( array( 'start', 'end', 'mode', 'logo' ) as $k ) {
+			if ( ! empty( $s[ $k ] ) ) {
+				$config[ $k ] = $s[ $k ];
+			}
+		}
+		if ( ! empty( $s['thresholds'] ) ) {
+			$config['thresholds'] = array_values( $s['thresholds'] );
+		}
+		if ( isset( $s['gifts'] ) ) {
+			// display_price (samo dev) ohranimo iz markets.php.
+			$display = array();
+			foreach ( (array) $config['gifts'] as $g ) {
+				$id = ! empty( $g['id'] ) ? (int) $g['id'] : ( ! empty( $g['sku'] ) && function_exists( 'wc_get_product_id_by_sku' ) ? (int) wc_get_product_id_by_sku( $g['sku'] ) : 0 );
+				if ( $id && ! empty( $g['display_price'] ) ) {
+					$display[ $id ] = $g['display_price'];
+				}
+			}
+			$config['gifts'] = array_map( function ( $g ) use ( $display ) {
+				if ( isset( $display[ (int) $g['id'] ] ) ) {
+					$g['display_price'] = $display[ (int) $g['id'] ];
+				}
+				return $g;
+			}, (array) $s['gifts'] );
+		}
+		if ( ! empty( $s['strings'] ) ) {
+			$config['strings'] = array_merge( $config['strings'], $s['strings'] );
+		}
+		if ( ! empty( $s['start'] ) && strlen( $s['start'] ) === 16 ) {
+			$config['start'] .= ':00';
+		}
+		if ( ! empty( $s['end'] ) && strlen( $s['end'] ) === 16 ) {
+			$config['end'] .= ':59';
+		}
+	}
+	$config['mode'] = 'popup' === ( $config['mode'] ?? '' ) ? 'popup' : 'cart';
 	// Darila lahko podamo s SKU (EAN) – ID se poišče na vsaki domeni posebej.
 	$config['gifts'] = array_values( array_filter( array_map( function ( $g ) {
 		if ( empty( $g['id'] ) && ! empty( $g['sku'] ) && function_exists( 'wc_get_product_id_by_sku' ) ) {
@@ -80,9 +134,40 @@ function bfg_is_dev() {
 	return (bool) apply_filters( 'bfg_is_dev', ! empty( bfg_config()['use_display'] ) );
 }
 
+/** Predogled za administratorja: ?bfg_preview=1 (vklop), ?bfg_preview=0 (izklop). */
+function bfg_is_preview() {
+	static $p = null;
+	if ( null !== $p ) {
+		return $p;
+	}
+	if ( empty( $_COOKIE['bfg_preview'] ) ) {
+		return false;
+	}
+	if ( ! did_action( 'set_current_user' ) ) {
+		return false; // uporabnik še ni znan – ne shranimo rezultata.
+	}
+	$p = is_user_logged_in() && current_user_can( 'manage_woocommerce' );
+	return $p;
+}
+
+add_action( 'init', function () {
+	if ( ! isset( $_GET['bfg_preview'] ) || ! current_user_can( 'manage_woocommerce' ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		return;
+	}
+	$on = '1' === $_GET['bfg_preview']; // phpcs:ignore
+	setcookie( 'bfg_preview', $on ? '1' : '', $on ? 0 : time() - 3600, COOKIEPATH ?: '/', COOKIE_DOMAIN, is_ssl(), true );
+	$_COOKIE['bfg_preview'] = $on ? '1' : '';
+} );
+
 function bfg_is_active() {
 	$c = bfg_config();
-	if ( empty( $c['enabled'] ) || empty( $c['gifts'] ) ) {
+	if ( empty( $c['gifts'] ) ) {
+		return (bool) apply_filters( 'bfg_is_active', false );
+	}
+	if ( bfg_is_preview() ) {
+		return (bool) apply_filters( 'bfg_is_active', true );
+	}
+	if ( empty( $c['enabled'] ) ) {
 		return (bool) apply_filters( 'bfg_is_active', false );
 	}
 	if ( ! empty( $c['always_on'] ) ) {
@@ -310,7 +395,7 @@ add_filter( 'woocommerce_cart_item_name', function ( $name, $item ) {
 
 add_filter( 'woocommerce_get_item_data', function ( $data, $item ) {
 	if ( bfg_is_gift_item( $item ) ) {
-		$data[] = array( 'key' => bfg_config()['strings']['meta_label'], 'value' => 'Black Friday' );
+		$data[] = array( 'key' => bfg_config()['strings']['meta_label'], 'value' => bfg_config()['strings']['campaign'] );
 	}
 	return $data;
 }, 20, 2 );
@@ -318,7 +403,7 @@ add_filter( 'woocommerce_get_item_data', function ( $data, $item ) {
 add_action( 'woocommerce_checkout_create_order_line_item', function ( $line, $key, $values ) {
 	if ( bfg_is_gift_item( $values ) ) {
 		$line->add_meta_data( '_bfg_gift', 'yes', true );
-		$line->add_meta_data( bfg_config()['strings']['meta_label'], 'Black Friday', true );
+		$line->add_meta_data( bfg_config()['strings']['meta_label'], bfg_config()['strings']['campaign'], true );
 	}
 }, 10, 3 );
 
@@ -331,12 +416,11 @@ add_filter( 'woocommerce_hidden_order_itemmeta', function ( $keys ) {
  * AJAX (wc-ajax, ne gre skozi page cache)
  * ---------------------------------------------------------------------- */
 
-function bfg_state( $extra = array() ) {
-	$c       = bfg_config();
-	$total   = bfg_eligible_total();
-	$allowed = bfg_allowance( $total );
-	$dev     = bfg_is_dev();
-	$gifts   = array();
+/** Darila za prikaz (ime, velikost, redna cena, slike, opis). */
+function bfg_gifts_display() {
+	$c     = bfg_config();
+	$dev   = bfg_is_dev();
+	$gifts = array();
 	foreach ( $c['gifts'] as $g ) {
 		$p = wc_get_product( $g['id'] );
 		if ( ! $p ) {
@@ -352,16 +436,29 @@ function bfg_state( $extra = array() ) {
 		if ( $dev && ! empty( $g['display_price'] ) ) {
 			$regular = (float) $g['display_price'];
 		}
+		$desc = wp_strip_all_tags( strip_shortcodes( $p->get_short_description() ?: $p->get_description() ) );
+		$desc = trim( preg_replace( '/\s+/u', ' ', html_entity_decode( $desc, ENT_QUOTES, 'UTF-8' ) ) );
+		$desc = wp_trim_words( $desc, 45, '…' );
 		$gifts[] = array(
 			'id'       => (int) $g['id'],
-			'name'     => $g['name'] ?? $name,
-			'size'     => $g['size'] ?? $size,
+			'name'     => ! empty( $g['name'] ) ? $g['name'] : $name,
+			'size'     => ! empty( $g['size'] ) ? $g['size'] : $size,
 			'regular'  => $regular,
 			'image'    => wp_get_attachment_image_url( $p->get_image_id(), 'woocommerce_thumbnail' ) ?: wc_placeholder_img_src(),
+			'image_lg' => wp_get_attachment_image_url( $p->get_image_id(), 'woocommerce_single' ) ?: wc_placeholder_img_src(),
+			'desc'     => $desc,
 			'url'      => get_permalink( $p->get_id() ),
 			'in_stock' => $p->is_in_stock() && $p->is_purchasable(),
 		);
 	}
+	return $gifts;
+}
+
+function bfg_state( $extra = array() ) {
+	$c       = bfg_config();
+	$total   = bfg_eligible_total();
+	$allowed = bfg_allowance( $total );
+	$gifts   = bfg_gifts_display();
 	$show    = WC()->session ? (int) WC()->session->get( 'bfg_show' ) : 0;
 	$removed = WC()->session ? (int) WC()->session->get( 'bfg_removed' ) : 0;
 	if ( WC()->session ) {
@@ -375,7 +472,8 @@ function bfg_state( $extra = array() ) {
 		'thresholds' => $c['thresholds'],
 		'selected'   => array_values( bfg_cart_gifts() ),
 		'gifts'      => $gifts,
-		'show'       => $show && bfg_is_active(),
+		'show'       => $show && bfg_is_active() && 'popup' === $c['mode'],
+		'mode'       => $c['mode'],
 		'removed'    => $removed,
 		'count'      => WC()->cart ? WC()->cart->get_cart_contents_count() : 0,
 	), $extra );
@@ -406,7 +504,9 @@ add_action( 'wc_ajax_bfg_set_gifts', function () {
 	$have = array_values( bfg_cart_gifts() );
 	foreach ( $want as $pid ) {
 		if ( ! in_array( $pid, $have, true ) ) {
-			$cart->add_to_cart( $pid, 1, 0, array(), array( 'bfg_gift' => 1 ) );
+			if ( $cart->add_to_cart( $pid, 1, 0, array(), array( 'bfg_gift' => 1 ) ) && ! bfg_is_preview() ) {
+				bfg_stats_bump( 'selections', $pid );
+			}
 		}
 	}
 	wc_clear_notices();
@@ -416,6 +516,86 @@ add_action( 'wc_ajax_bfg_set_gifts', function () {
 	}
 	wp_send_json_success( bfg_state() );
 } );
+
+/** Statistika prikazov: open (pop-up), block (klik v košarici), checkout (pop-up ob zaključku). */
+add_action( 'wc_ajax_bfg_track', function () {
+	$map = array( 'open' => 'opens', 'block' => 'block_clicks', 'checkout' => 'checkout_prompts' );
+	$ev  = sanitize_key( wp_unslash( $_POST['ev'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification
+	if ( isset( $map[ $ev ] ) && bfg_is_active() && ! bfg_is_preview() ) {
+		bfg_stats_bump( $map[ $ev ] );
+	}
+	wp_send_json_success();
+} );
+
+/* -------------------------------------------------------------------------
+ * BLOK V FUNNELKIT KOŠARICI (način A)
+ * ---------------------------------------------------------------------- */
+
+function bfg_render_cart_block() {
+	if ( ! bfg_is_active() || 'cart' !== bfg_config()['mode'] || ! WC()->cart || WC()->cart->is_empty() ) {
+		return;
+	}
+	$c       = bfg_config();
+	$S       = $c['strings'];
+	$th      = array_values( $c['thresholds'] );
+	$total   = bfg_eligible_total();
+	$n       = bfg_allowance( $total );
+	$max     = end( $th );
+	$sel     = array_values( bfg_cart_gifts() );
+	$imgs    = array();
+	foreach ( $sel as $pid ) {
+		$p = wc_get_product( $pid );
+		$imgs[] = $p ? ( wp_get_attachment_image_url( $p->get_image_id(), 'woocommerce_gallery_thumbnail' ) ?: wc_placeholder_img_src() ) : '';
+	}
+	$round = function ( $v ) {
+		return preg_replace( '/[,.]00(?=\D*$)/', '', wp_strip_all_tags( wc_price( $v ) ) );
+	};
+	if ( $n >= count( $th ) ) {
+		$msg = $S['nudge_all'];
+	} else {
+		$msg = sprintf( $S['nudge'], esc_html( $S[ 'nth_' . ( $n + 1 ) ] ?? '' ), wp_strip_all_tags( wc_price( $th[ $n ] - $total ) ) );
+	}
+	if ( 0 === $n ) {
+		$btn = $S['block_view'];
+	} elseif ( count( $sel ) >= $n ) {
+		$btn = sprintf( $S['block_done'], count( $sel ), $n );
+	} else {
+		$btn = sprintf( $S['block_btn'], count( $sel ), $n );
+	}
+	$clover = '<svg class="bfgb-clover" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="currentColor">';
+	foreach ( array( 0, 90, 180, 270 ) as $a ) {
+		$clover .= '<path transform="translate(12 12) rotate(' . ( $a + 45 ) . ') scale(.5) translate(-12 -21)" d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/>';
+	}
+	$clover .= '</g></svg>';
+	$allowed_html = array( 'strong' => array(), 'span' => array(), 'b' => array(), 'em' => array() );
+	?>
+	<div class="bfgb" data-allowed="<?php echo (int) $n; ?>" data-selected="<?php echo (int) count( $sel ); ?>">
+		<div class="bfgb-top"><?php echo $clover; // phpcs:ignore ?><b><?php echo esc_html( $S['event'] ); ?></b><span><?php echo esc_html( $S['block_tag'] ); ?></span></div>
+		<div class="bfgb-body">
+			<div class="bfgb-msg"><?php echo wp_kses( $msg, $allowed_html ); ?></div>
+			<div class="bfgb-prog"><i style="width:<?php echo esc_attr( round( min( 100, $max > 0 ? $total / $max * 100 : 0 ), 1 ) ); ?>%"></i></div>
+			<div class="bfgb-ms">
+				<?php foreach ( $th as $i => $t ) : ?>
+					<span class="<?php echo $n > $i ? 'on' : ''; ?>"><?php echo esc_html( $S[ 'gift_' . ( $i + 1 ) ] ?? '' ); ?> · <?php echo esc_html( $round( $t ) ); ?></span>
+				<?php endforeach; ?>
+			</div>
+			<div class="bfgb-chips">
+				<?php for ( $i = 0; $i < count( $th ); $i++ ) : ?>
+					<?php if ( isset( $imgs[ $i ] ) ) : ?>
+						<span class="bfgb-chip is-full"><img src="<?php echo esc_url( $imgs[ $i ] ); ?>" alt=""></span>
+					<?php elseif ( $i < $n ) : ?>
+						<span class="bfgb-chip is-open">+</span>
+					<?php else : ?>
+						<span class="bfgb-chip is-locked"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1zm2 0h6V8a3 3 0 0 0-6 0v2z"/></svg></span>
+					<?php endif; ?>
+				<?php endfor; ?>
+			</div>
+			<button type="button" class="bfgb-btn bfg-open-popup<?php echo ( $n > 0 && count( $sel ) >= $n ) ? ' is-done' : ''; ?>" data-bfg-ev="block"><?php echo esc_html( $btn ); ?></button>
+		</div>
+	</div>
+	<?php
+}
+add_action( 'fkcart_before_cart_items', 'bfg_render_cart_block', 5 );
 
 /* -------------------------------------------------------------------------
  * FRONTEND
@@ -432,6 +612,8 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'bfg', BFG_URL . 'assets/bfg.js', array( 'jquery' ), BFG_VERSION, true );
 	wp_localize_script( 'bfg', 'bfgData', array(
 		'stateUrl'    => WC_AJAX::get_endpoint( 'bfg_state' ),
+		'trackUrl'    => WC_AJAX::get_endpoint( 'bfg_track' ),
+		'mode'        => bfg_config()['mode'],
 		'setUrl'      => WC_AJAX::get_endpoint( 'bfg_set_gifts' ),
 		'checkoutUrl' => wc_get_checkout_url(),
 		'locale'      => str_replace( '_', '-', get_locale() ),

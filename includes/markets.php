@@ -27,6 +27,7 @@ function bfg_market_hosts() {
 function bfg_market_defaults() {
 	return array(
 		'enabled'    => false,
+		'mode'       => 'cart', // cart = A (blok v košarici + pop-up ob zaključku), popup = B (pop-up ob dodajanju).
 		'start'      => '2026-11-17 00:00:00',
 		'end'        => '2026-11-30 23:59:59',
 		'timezone'   => 'Europe/Ljubljana',
@@ -41,6 +42,7 @@ function bfg_market_defaults() {
 /** Slovenski teksti (SI + dev). */
 function bfg_strings_sl() {
 	return array(
+		'campaign'   => 'Black Friday',
 		'event'      => 'BLACK FRIDAY AKCIJA',
 		'title'      => 'Popusti do <span>−60 %</span>',
 		'title_sub'  => '+ brezplačna darila po izbiri',
@@ -56,7 +58,9 @@ function bfg_strings_sl() {
 		'head_3'     => 'Izberite 3 brezplačna darila',
 		'selected'   => 'Izbrano',
 		'nudge'      => 'Do %1$s darila vam manjka le <strong>%2$s</strong>.',
-		'nth'        => array( 'prvega', 'drugega', 'tretjega' ),
+		'nth_1'      => 'prvega',
+		'nth_2'      => 'drugega',
+		'nth_3'      => 'tretjega',
 		'nudge_all'  => '<strong>Čestitamo! Pripadajo vam 3 brezplačna darila.</strong>',
 		'choose'     => '+ Izberi darilo',
 		'chosen'     => '✓ Izbrano',
@@ -73,6 +77,14 @@ function bfg_strings_sl() {
 		'meta_label' => 'Darilo',
 		'more'       => 'Izvedi več »',
 		'free'       => 'BREZPLAČNO',
+		'free_gift'  => 'BREZPLAČNO DARILO',
+		'pick'       => '+ Izberi to darilo',
+		'unpick'     => 'Odstrani darilo',
+		'back'       => '‹ Nazaj',
+		'block_tag'  => 'Brezplačna darila',
+		'block_btn'  => 'Izberi brezplačno darilo (%1$s/%2$s) »',
+		'block_done' => 'Izbrana darila (%1$s/%2$s) – zamenjaj »',
+		'block_view' => 'Oglej si darila »',
 	);
 }
 
