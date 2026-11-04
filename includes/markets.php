@@ -33,6 +33,8 @@ function bfg_market_defaults() {
 		'thresholds' => array( 100, 150, 200 ), // 1, 2, 3 darila (v valuti trga).
 		'gifts'      => array(),
 		'strings'    => array(),
+		// Bel logotip z deteljico (temno ozadje pop-upa).
+		'logo'       => 'https://www.biostile.si/wp-content/uploads/2026/01/Nov-logo-Biostile-8.png',
 	);
 }
 
@@ -40,8 +42,9 @@ function bfg_market_defaults() {
 function bfg_strings_sl() {
 	return array(
 		'event'      => 'BLACK FRIDAY AKCIJA',
-		'title'      => 'Popusti do -60 % + brezplačna darila po izbiri!',
-		'subtitle'   => 'Večji nakup, več daril. Ob vsakem nakupu prejmete tudi <strong>kodo za 25 % popusta pri naslednjem nakupu.</strong>',
+		'title'      => 'Popusti do <span>−60 %</span>',
+		'title_sub'  => '+ brezplačna darila po izbiri',
+		'subtitle'   => 'Ob vsakem nakupu prejmete tudi <strong>kodo za −25 %</strong> pri naslednjem nakupu.',
 		'cart_value' => 'Vrednost vaše košarice',
 		'gift_1'     => '1 darilo',
 		'gift_2'     => '2 darili',
@@ -68,18 +71,21 @@ function bfg_strings_sl() {
 		'regular'    => 'Redna cena',
 		'cart_label' => 'BF darilo',
 		'meta_label' => 'Darilo',
+		'more'       => 'Izvedi več »',
+		'free'       => 'BREZPLAČNO',
 	);
 }
 
 /** Nastavitve posameznih trgov. */
 function bfg_markets() {
+	// Darila po SKU (EAN, enak na vseh trgih); display_price velja samo na dev.
 	$si_gifts = array(
-		array( 'id' => 66832,  'display_price' => 41.90 ), // Sunrise Rejuvenation day cream, 50 ml
-		array( 'id' => 67807,  'display_price' => 39.90, 'name' => 'Triple action rejuvenation', 'size' => 'Krema za oči, 15 ml' ),
-		array( 'id' => 198993, 'display_price' => 19.90 ), // Hair.O shampoo, 200 ml
-		array( 'id' => 199906, 'display_price' => 15.90 ), // Moisturizing Intimate Gel, 50 ml
-		array( 'id' => 199908, 'display_price' => 24.90 ), // Sun Kissed, 150 ml
-		array( 'id' => 199897, 'display_price' => 29.90 ), // Celuline, 150 ml
+		array( 'sku' => '3830057684833', 'display_price' => 41.90 ), // Sunrise Rejuvenation day cream, 50 ml
+		array( 'sku' => '3830057685229', 'display_price' => 39.90, 'name' => 'Triple action rejuvenation', 'size' => 'Krema za oči, 15 ml' ),
+		array( 'sku' => '3830057685847', 'display_price' => 19.90 ), // Hair.O shampoo, 200 ml
+		array( 'sku' => '3830057686479', 'display_price' => 15.90 ), // Moisturizing Intimate Gel, 50 ml
+		array( 'sku' => '3830057686172', 'display_price' => 24.90 ), // Sun Kissed, 150 ml
+		array( 'sku' => '3830057686349', 'display_price' => 29.90 ), // Celuline, 150 ml
 	);
 
 	return array(

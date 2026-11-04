@@ -63,6 +63,15 @@ function bfg_config() {
 	$market  = $markets[ $key ] ?? array();
 	$config  = array_merge( bfg_market_defaults(), $market, array( 'market' => $key ) );
 	$config['strings'] = array_merge( bfg_strings_sl(), (array) ( $market['strings'] ?? array() ) );
+	// Darila lahko podamo s SKU (EAN) – ID se poišče na vsaki domeni posebej.
+	$config['gifts'] = array_values( array_filter( array_map( function ( $g ) {
+		if ( empty( $g['id'] ) && ! empty( $g['sku'] ) && function_exists( 'wc_get_product_id_by_sku' ) ) {
+			$g['id'] = (int) wc_get_product_id_by_sku( $g['sku'] );
+		}
+		return $g;
+	}, (array) $config['gifts'] ), function ( $g ) {
+		return ! empty( $g['id'] );
+	} ) );
 	$config  = apply_filters( 'bfg_config', $config );
 	return $config;
 }
@@ -349,6 +358,7 @@ function bfg_state( $extra = array() ) {
 			'size'     => $g['size'] ?? $size,
 			'regular'  => $regular,
 			'image'    => wp_get_attachment_image_url( $p->get_image_id(), 'woocommerce_thumbnail' ) ?: wc_placeholder_img_src(),
+			'url'      => get_permalink( $p->get_id() ),
 			'in_stock' => $p->is_in_stock() && $p->is_purchasable(),
 		);
 	}
@@ -427,5 +437,6 @@ add_action( 'wp_enqueue_scripts', function () {
 		'locale'      => str_replace( '_', '-', get_locale() ),
 		'currency'    => get_woocommerce_currency(),
 		'strings'     => bfg_config()['strings'],
+		'logo'        => bfg_config()['logo'] ?? '',
 	) );
 } );

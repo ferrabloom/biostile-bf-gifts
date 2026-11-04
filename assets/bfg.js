@@ -32,25 +32,36 @@
 		$(document).on('keydown', function (e) { if (e.key === 'Escape' && $o && !$o.prop('hidden')) close(); });
 	}
 
+	var CLOVER = '<svg class="bfg-clover" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="currentColor">' +
+		[0, 90, 180, 270].map(function (a) { return '<path transform="translate(12 12) rotate(' + (a + 45) + ') scale(.5) translate(-12 -21)" d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/>'; }).join('') +
+		'</g><path d="M12 12.5c.6 3.2 2.2 5.8 4.8 7.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+
+	function roundMoney(v) { return money(v).replace(/[,.]00(?=\D*$)/, ''); }
+
 	function render(msg) {
 		var s = state, n = s.allowed, th = s.thresholds, max = th[th.length - 1], h = '';
-		h += '<header class="bfg-hero"><span class="bfg-event">' + esc(S.event) + '</span>';
-		h += '<button type="button" class="bfg-close" aria-label="' + esc(S.close) + '">×</button>';
-		h += '<h2 class="bfg-title" id="bfg-title">' + esc(S.title) + '</h2><p class="bfg-sub">' + S.subtitle + '</p></header>';
+		h += '<header class="bfg-hero">' + CLOVER.replace('bfg-clover', 'bfg-clover bfg-watermark');
+		h += '<div class="bfg-brand">' + (D.logo ? '<img class="bfg-logo" src="' + esc(D.logo) + '" alt="Biostile">' : '') + '<span class="bfg-event">' + esc(S.event) + '</span></div>';
+		h += '<button type="button" class="bfg-close" aria-label="' + esc(S.close) + '">\u00d7</button>';
+		h += '<h2 class="bfg-title" id="bfg-title">' + S.title + '</h2>';
+		h += '<p class="bfg-title-sub">' + esc(S.title_sub) + '</p>';
+		h += '<p class="bfg-sub"><span class="bfg-ticket">%</span><span>' + S.subtitle + '</span></p></header>';
 		h += '<div class="bfg-body"><div class="bfg-cartrow"><span>' + esc(S.cart_value) + '</span><strong>' + money(s.total) + '</strong></div>';
 		h += '<div class="bfg-progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + max + '" aria-valuenow="' + Math.min(max, s.total) + '"><div class="bfg-fill" style="width:' + Math.min(100, s.total / max * 100) + '%"></div></div>';
 		h += '<div class="bfg-milestones">';
 		th.forEach(function (t, i) {
-			h += '<div class="bfg-milestone' + (n > i ? ' is-active' : '') + '"><b>' + esc(S['gift_' + (i + 1)]) + '</b>' + esc(S.from) + ' ' + money(t).replace(/[,.]00(?=\D*$)/, '') + (n > i ? ' ✓' : '') + '</div>';
+			h += '<div class="bfg-milestone' + (n > i ? ' is-active' : '') + '">' + (n > i ? CLOVER : '') + '<b>' + esc(S['gift_' + (i + 1)]) + '</b><span>' + esc(S.from) + ' ' + roundMoney(t) + '</span></div>';
 		});
 		h += '</div><div class="bfg-nudge" aria-live="polite">' + (n >= th.length ? S.nudge_all : fmt(S.nudge, esc(S.nth[n]), money(th[n] - s.total))) + '</div>';
-		h += '<div class="bfg-head"><h3>' + esc(n === 0 ? fmt(S.head_0, money(th[0]).replace(/[,.]00(?=\D*$)/, '')) : S['head_' + n]) + '</h3><span class="bfg-count">' + esc(S.selected) + ': <b>' + picked.length + ' / ' + n + '</b></span></div>';
+		h += '<div class="bfg-head"><h3>' + esc(n === 0 ? fmt(S.head_0, roundMoney(th[0])) : S['head_' + n]) + '</h3><span class="bfg-count">' + esc(S.selected) + ': <b>' + picked.length + ' / ' + n + '</b></span></div>';
 		h += '<div class="bfg-gifts">';
 		s.gifts.forEach(function (g) {
-			var sel = picked.indexOf(g.id) > -1;
-			h += '<div class="bfg-gift' + (sel ? ' is-selected' : '') + '"><img src="' + esc(g.image) + '" alt="' + esc(g.name) + '" loading="lazy">';
+			var sel = picked.indexOf(g.id) > -1, link = g.url ? ' href="' + esc(g.url) + '" target="_blank" rel="noopener"' : '';
+			h += '<div class="bfg-gift' + (sel ? ' is-selected' : '') + '"><span class="bfg-free">' + esc(S.free) + '</span>';
+			h += '<a class="bfg-img"' + link + ' aria-label="' + esc(S.more + ' ' + g.name) + '"><img src="' + esc(g.image) + '" alt="' + esc(g.name) + '" loading="lazy"></a>';
 			h += '<p class="bfg-name">' + esc(g.name) + '</p><div class="bfg-size">' + esc(g.size) + '</div>';
 			h += '<div class="bfg-price"><del aria-label="' + esc(S.regular) + ' ' + esc(money(g.regular)) + '">' + money(g.regular) + '</del><strong>' + money(0) + '</strong></div>';
+			if (g.url) h += '<a class="bfg-more"' + link + '>' + esc(S.more) + '</a>';
 			h += '<button type="button" class="bfg-choose" data-id="' + g.id + '" aria-pressed="' + sel + '"' + ((n === 0 || !g.in_stock) && !sel ? ' disabled' : '') + '>' + esc(sel ? S.chosen : S.choose) + '</button></div>';
 		});
 		h += '</div><p class="bfg-msg" aria-live="polite">' + esc(msg || notice || '') + '</p></div>';
