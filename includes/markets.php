@@ -117,12 +117,14 @@ function bfg_markets() {
 		),
 		// Vsi trgi so izklopljeni, dokler akcije ročno ne vklopimo (meni BiostileGifts).
 		'sk'  => array(
+			'logo'       => 'https://www.biostile.sk/wp-content/uploads/2020/08/logo-Biostile-SKpdf.png', // bel logotip trga (slogan v jeziku trga)
 			'enabled' => false,
 			'gifts'   => bfg_gifts_for( 'sk' ),
 			'strings' => bfg_strings_sk(),
 		),
 		// CZK: ~25 Kč = 1 € (razmerje cen na biostile.cz), zaokroženo navzgor na marketinško vrednost.
 		'cz'  => array(
+			'logo'       => 'https://www.biostile.cz/wp-content/uploads/2026/10/logo-Biostile-CZ-white.png', // bel logotip trga (slogan v jeziku trga)
 			'enabled'    => false,
 			'thresholds' => array( 2500, 3750, 5000 ),
 			'gifts'      => bfg_gifts_for( 'cs' ),
@@ -130,18 +132,21 @@ function bfg_markets() {
 		),
 		// HUF: ~394 Ft = 1 € (razmerje cen na biostile.hu), zaokroženo na okrogle zneske.
 		'hu'  => array(
+			'logo'       => 'https://www.biostile.hu/wp-content/uploads/2026/10/logo-Biostile-HU-white.png', // bel logotip trga (slogan v jeziku trga)
 			'enabled'    => false,
 			'thresholds' => array( 40000, 60000, 80000 ),
 			'gifts'      => bfg_gifts_for( 'hu' ),
 			'strings'    => bfg_strings_hu(),
 		),
 		'it'  => array(
+			'logo'       => 'https://www.bio-stile.it/wp-content/uploads/2026/09/logo-Biostile-IT-pdf-1.png', // bel logotip trga (slogan v jeziku trga)
 			'enabled' => false,
 			'gifts'   => bfg_gifts_for( 'it' ),
 			'strings' => bfg_strings_it(),
 		),
 		// HR nima FunnelKit Cart: način B (pop-up ob dodajanju v košarico).
 		'hr'  => array(
+			'logo'       => 'https://www.biostile.hr/wp-content/uploads/2024/03/logo_biostile_HR_bel.png', // bel logotip trga (slogan v jeziku trga)
 			'enabled' => false,
 			'mode'    => 'popup',
 			'gifts'   => bfg_gifts_for( 'hr' ),
