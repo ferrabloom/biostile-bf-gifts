@@ -167,7 +167,15 @@
 	$(document.body).on('removed_from_cart fkcart_quantity_updated updated_cart_totals', function () { load(false); });
 	// Klasično dodajanje (produktna stran z reloadom) – strežnik nastavi zastavico.
 	$(function () {
-		if (D.mode === 'popup' && document.cookie.indexOf('woocommerce_items_in_cart') > -1) load(false);
+		var hasItems = document.cookie.indexOf('woocommerce_items_in_cart') > -1;
+		if (D.mode === 'popup' && hasItems) load(false);
+		// FunnelKit hrani HTML košarice v brskalniku: če je bila košarica napolnjena pred začetkom akcije,
+		// bloka ni – košarico enkrat osvežimo, da se blok izriše.
+		if (D.mode === 'cart' && hasItems) {
+			setTimeout(function () {
+				if ($('#fkcart-modal').length && !$('.bfgb').length) $(document.body).trigger('fkcart_update_side_cart', [false]);
+			}, 800);
+		}
 	});
 	// Ročni odpiralnik: .bfg-open-popup (blok v košarici, top bar, banner).
 	$(document).on('click', '.bfg-open-popup', function (e) { e.preventDefault(); load(true, $(this).data('bfg-ev') || 'open'); });
