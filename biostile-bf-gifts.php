@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BiostileGifts
  * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni BiostileGifts.
- * Version: 0.4.0
+ * Version: 0.4.1
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-bf-gifts
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '0.4.0' );
+define( 'BFG_VERSION', '0.4.1' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
@@ -66,6 +66,26 @@ function bfg_default_strings() {
 	return array_merge( bfg_strings_sl(), (array) ( $market['strings'] ?? array() ) );
 }
 
+/** Objavljen izdelek s tem SKU (če ima isti SKU tudi osnutek ali duplikat, vzame objavljenega). */
+function bfg_published_id_by_sku( $sku ) {
+	static $cache = array();
+	if ( isset( $cache[ $sku ] ) ) {
+		return $cache[ $sku ];
+	}
+	$ids = get_posts( array(
+		'post_type'        => 'product',
+		'post_status'      => 'publish',
+		'posts_per_page'   => 1,
+		'fields'           => 'ids',
+		'orderby'          => 'ID',
+		'order'            => 'ASC',
+		'no_found_rows'    => true,
+		'suppress_filters' => true,
+		'meta_query'       => array( array( 'key' => '_sku', 'value' => (string) $sku, 'compare' => '=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+	) );
+	return $cache[ $sku ] = $ids ? (int) $ids[0] : 0;
+}
+
 function bfg_config() {
 	static $config = null;
 	if ( null !== $config ) {
@@ -95,7 +115,7 @@ function bfg_config() {
 			// display_price (samo dev) ohranimo iz markets.php.
 			$display = array();
 			foreach ( (array) $config['gifts'] as $g ) {
-				$id = ! empty( $g['id'] ) ? (int) $g['id'] : ( ! empty( $g['sku'] ) && function_exists( 'wc_get_product_id_by_sku' ) ? (int) wc_get_product_id_by_sku( $g['sku'] ) : 0 );
+				$id = ! empty( $g['id'] ) ? (int) $g['id'] : ( ! empty( $g['sku'] ) ? bfg_published_id_by_sku( $g['sku'] ) : 0 );
 				if ( $id && ! empty( $g['display_price'] ) ) {
 					$display[ $id ] = $g['display_price'];
 				}
@@ -120,8 +140,8 @@ function bfg_config() {
 	$config['mode'] = 'popup' === ( $config['mode'] ?? '' ) ? 'popup' : 'cart';
 	// Darila lahko podamo s SKU (EAN) – ID se poišče na vsaki domeni posebej.
 	$config['gifts'] = array_values( array_filter( array_map( function ( $g ) {
-		if ( empty( $g['id'] ) && ! empty( $g['sku'] ) && function_exists( 'wc_get_product_id_by_sku' ) ) {
-			$g['id'] = (int) wc_get_product_id_by_sku( $g['sku'] );
+		if ( empty( $g['id'] ) && ! empty( $g['sku'] ) ) {
+			$g['id'] = bfg_published_id_by_sku( $g['sku'] );
 		}
 		return $g;
 	}, (array) $config['gifts'] ), function ( $g ) {
