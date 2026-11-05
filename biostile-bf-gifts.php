@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BiostileGifts
  * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni BiostileGifts.
- * Version: 0.4.2
+ * Version: 0.4.3
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-bf-gifts
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '0.4.2' );
+define( 'BFG_VERSION', '0.4.3' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
@@ -115,7 +115,7 @@ function bfg_config() {
 			// display_price (samo dev) ohranimo iz markets.php.
 			$display = array();
 			foreach ( (array) $config['gifts'] as $g ) {
-				$id = ! empty( $g['id'] ) ? (int) $g['id'] : ( ! empty( $g['sku'] ) ? bfg_published_id_by_sku( $g['sku'] ) : 0 );
+				$id = ! empty( $g['id'] ) ? (int) $g['id'] : ( ! empty( $g['sku'] ) ? bfg_published_id_by_sku( ( (array) $g['sku'] )[0] ) : 0 );
 				if ( $id && ! empty( $g['display_price'] ) ) {
 					$display[ $id ] = $g['display_price'];
 				}
@@ -141,7 +141,12 @@ function bfg_config() {
 	// Darila lahko podamo s SKU (EAN) – ID se poišče na vsaki domeni posebej.
 	$config['gifts'] = array_values( array_filter( array_map( function ( $g ) {
 		if ( empty( $g['id'] ) && ! empty( $g['sku'] ) ) {
-			$g['id'] = bfg_published_id_by_sku( $g['sku'] );
+			foreach ( (array) $g['sku'] as $sku ) { // več EAN-ov: prvi objavljen zadetek
+				$g['id'] = bfg_published_id_by_sku( $sku );
+				if ( $g['id'] ) {
+					break;
+				}
+			}
 		}
 		return $g;
 	}, (array) $config['gifts'] ), function ( $g ) {

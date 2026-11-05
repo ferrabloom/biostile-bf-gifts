@@ -249,7 +249,7 @@ function bfg_strings_hr() {
 }
 
 /**
- * Darila po SKU (EAN, enak na vseh trgih) z imenom in opisom velikosti v jeziku trga.
+ * Darila po SKU (EAN; nekateri izdelki imajo na SK/CZ/HU/IT drug EAN – navedena sta oba) z imenom in opisom velikosti v jeziku trga.
  * Darilo, ki na domeni ni objavljeno, se samodejno izpusti (in se pojavi, ko ga objavite).
  */
 function bfg_gifts_for( $lang ) {
@@ -264,10 +264,10 @@ function bfg_gifts_for( $lang ) {
 	$base = array(
 		array( 'sku' => '3830057684833', 'name' => 'Sunrise Rejuvenation' ),
 		array( 'sku' => '3830057685229', 'name' => 'Triple Action Rejuvenation' ),
-		array( 'sku' => '3830057685847', 'name' => 'Hair.O' ),
-		array( 'sku' => '3830057686479', 'name' => 'Moisturizing Intimate Gel' ),
-		array( 'sku' => '3830057686172', 'name' => 'Sun Kissed' ),
-		array( 'sku' => '3830057686349', 'name' => 'Celuline' ),
+		array( 'sku' => array( '3830057685847', '3830057686066' ), 'name' => 'Hair.O' ),
+		array( 'sku' => array( '3830057686479', '3830057686462' ), 'name' => 'Moisturizing Intimate Gel' ),
+		array( 'sku' => array( '3830057686172', '3830057686608' ), 'name' => 'Sun Kissed' ),
+		array( 'sku' => array( '3830057686349', '3830057686615' ), 'name' => 'Celuline' ),
 	);
 	foreach ( $base as $i => $g ) {
 		$base[ $i ]['size'] = $t[ $lang ][ $i ];
