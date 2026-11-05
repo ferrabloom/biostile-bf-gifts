@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BiostileGifts
  * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni BiostileGifts.
- * Version: 0.3.2
+ * Version: 0.4.0
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-bf-gifts
@@ -13,12 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '0.3.2' );
+define( 'BFG_VERSION', '0.4.0' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
 
 require_once __DIR__ . '/includes/markets.php';
+require_once __DIR__ . '/includes/strings.php';
 require_once __DIR__ . '/includes/admin.php';
 
 /* -------------------------------------------------------------------------
@@ -124,7 +125,7 @@ function bfg_config() {
 		}
 		return $g;
 	}, (array) $config['gifts'] ), function ( $g ) {
-		return ! empty( $g['id'] );
+		return ! empty( $g['id'] ) && 'publish' === get_post_status( $g['id'] );
 	} ) );
 	$config  = apply_filters( 'bfg_config', $config );
 	return $config;
@@ -617,6 +618,11 @@ add_action( 'wp_enqueue_scripts', function () {
 		'setUrl'      => WC_AJAX::get_endpoint( 'bfg_set_gifts' ),
 		'checkoutUrl' => wc_get_checkout_url(),
 		'locale'      => str_replace( '_', '-', get_locale() ),
+		// Zapis cen kot v trgovini (decimalke, ločila, simbol) – enako kot ostala stran.
+		'decimals'    => wc_get_price_decimals(),
+		'decSep'      => wc_get_price_decimal_separator(),
+		'thouSep'     => wc_get_price_thousand_separator(),
+		'priceFormat' => html_entity_decode( sprintf( get_woocommerce_price_format(), get_woocommerce_currency_symbol(), '%v' ), ENT_QUOTES, 'UTF-8' ),
 		'currency'    => get_woocommerce_currency(),
 		'strings'     => bfg_config()['strings'],
 		'logo'        => bfg_config()['logo'] ?? '',

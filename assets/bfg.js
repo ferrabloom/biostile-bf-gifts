@@ -6,10 +6,15 @@
 		checkoutHref = '', bypass = false, detail = 0;
 	var NTH = [S.nth_1, S.nth_2, S.nth_3];
 
+	// Zapis cene kot v trgovini (WooCommerce: decimalke, ločila, simbol).
 	function money(v) {
-		try { return new Intl.NumberFormat(D.locale, { style: 'currency', currency: D.currency }).format(v); }
-		catch (e) { return v.toFixed(2).replace('.', ',') + ' €'; }
+		var dec = D.decimals == null ? 2 : parseInt(D.decimals, 10), neg = v < 0;
+		var parts = Math.abs(v).toFixed(dec).split('.');
+		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, D.thouSep == null ? '.' : D.thouSep);
+		var num = parts.join(D.decSep || ','), f = D.priceFormat || '%v\u00a0€';
+		return (neg ? '−' : '') + f.replace('%v', num).replace(/ /g, '\u00a0');
 	}
+	function from(amount) { return S.from.indexOf('%s') > -1 ? fmt(S.from, amount) : S.from + ' ' + amount; }
 	function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 	function fmt(s) { var a = [].slice.call(arguments, 1), i = 0; return String(s).replace(/%(\d\$)?s/g, function (m, n) { return n ? a[parseInt(n, 10) - 1] : a[i++]; }); }
 	function track(ev) { if (D.trackUrl) $.post(D.trackUrl, { ev: ev }); }
@@ -54,7 +59,7 @@
 		[0, 90, 180, 270].map(function (a) { return '<path transform="translate(12 12) rotate(' + (a + 45) + ') scale(.5) translate(-12 -21)" d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/>'; }).join('') +
 		'</g><path d="M12 12.5c.6 3.2 2.2 5.8 4.8 7.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
 
-	function roundMoney(v) { return money(v).replace(/[,.]00(?=\D*$)/, ''); }
+	function roundMoney(v) { var d = D.decSep || ','; return money(v).replace(new RegExp('\\' + d + '0+(?=\\D*$)'), ''); }
 	function gift(id) { return state ? state.gifts.filter(function (g) { return g.id === id; })[0] : null; }
 
 	function render(msg) {
@@ -70,7 +75,7 @@
 		h += '<div class="bfg-progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + max + '" aria-valuenow="' + Math.min(max, s.total) + '"><div class="bfg-fill" style="width:' + Math.min(100, s.total / max * 100) + '%"></div></div>';
 		h += '<div class="bfg-milestones" style="grid-template-columns:repeat(' + th.length + ',1fr)">';
 		th.forEach(function (t, i) {
-			h += '<div class="bfg-milestone' + (n > i ? ' is-active' : '') + '">' + (n > i ? CLOVER : '') + '<b>' + esc(S['gift_' + (i + 1)]) + '</b><span>' + esc(S.from) + ' ' + roundMoney(t) + '</span></div>';
+			h += '<div class="bfg-milestone' + (n > i ? ' is-active' : '') + '">' + (n > i ? CLOVER : '') + '<b>' + esc(S['gift_' + (i + 1)]) + '</b><span>' + esc(from(roundMoney(t))) + '</span></div>';
 		});
 		h += '</div><div class="bfg-nudge" aria-live="polite">' + (n >= th.length ? S.nudge_all : fmt(S.nudge, esc(NTH[n]), money(th[n] - s.total))) + '</div>';
 		h += '<div class="bfg-head"><h3>' + esc(n === 0 ? fmt(S.head_0, roundMoney(th[0])) : S['head_' + n]) + '</h3><span class="bfg-count">' + esc(S.selected) + ': <b>' + picked.length + ' / ' + n + '</b></span></div>';

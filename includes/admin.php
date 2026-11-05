@@ -26,7 +26,7 @@ function bfg_string_labels() {
 		'gift_1'     => array( '1 darilo', 'Mejnik' ),
 		'gift_2'     => array( '2 darili', 'Mejnik' ),
 		'gift_3'     => array( '3 darila', 'Mejnik' ),
-		'from'       => array( '»od«', 'Mejnik: »od 100 €«' ),
+		'from'       => array( '»od« pri mejniku', '%s = znesek, npr. »od %s«' ),
 		'head_0'     => array( 'Naslov seznama – pod pragom', '%s = prvi prag' ),
 		'head_1'     => array( 'Naslov seznama – 1 darilo', '' ),
 		'head_2'     => array( 'Naslov seznama – 2 darili', '' ),

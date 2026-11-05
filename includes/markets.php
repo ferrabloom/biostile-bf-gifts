@@ -115,12 +115,38 @@ function bfg_markets() {
 			'gifts'       => $si_gifts,
 			'strings'     => bfg_strings_sl(),
 		),
-		// TODO: ID-ji daril, prevodi in pragovi (valuta!) za ostale trge.
-		'sk'  => array( 'enabled' => false ),
-		'cz'  => array( 'enabled' => false ),
-		'hu'  => array( 'enabled' => false ),
-		'it'  => array( 'enabled' => false ),
-		'hr'  => array( 'enabled' => false ),
+		// Vsi trgi so izklopljeni, dokler akcije ročno ne vklopimo (meni BiostileGifts).
+		'sk'  => array(
+			'enabled' => false,
+			'gifts'   => bfg_gifts_for( 'sk' ),
+			'strings' => bfg_strings_sk(),
+		),
+		// CZK: ~25 Kč = 1 € (razmerje cen na biostile.cz), zaokroženo navzgor na marketinško vrednost.
+		'cz'  => array(
+			'enabled'    => false,
+			'thresholds' => array( 2500, 3750, 5000 ),
+			'gifts'      => bfg_gifts_for( 'cs' ),
+			'strings'    => bfg_strings_cs(),
+		),
+		// HUF: ~394 Ft = 1 € (razmerje cen na biostile.hu), zaokroženo na okrogle zneske.
+		'hu'  => array(
+			'enabled'    => false,
+			'thresholds' => array( 40000, 60000, 80000 ),
+			'gifts'      => bfg_gifts_for( 'hu' ),
+			'strings'    => bfg_strings_hu(),
+		),
+		'it'  => array(
+			'enabled' => false,
+			'gifts'   => bfg_gifts_for( 'it' ),
+			'strings' => bfg_strings_it(),
+		),
+		// HR nima FunnelKit Cart: način B (pop-up ob dodajanju v košarico).
+		'hr'  => array(
+			'enabled' => false,
+			'mode'    => 'popup',
+			'gifts'   => bfg_gifts_for( 'hr' ),
+			'strings' => bfg_strings_hr(),
+		),
 	);
 }
 
