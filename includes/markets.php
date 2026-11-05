@@ -101,8 +101,9 @@ function bfg_markets() {
 	);
 
 	return array(
+		// Izklopljeno, dokler akcije ročno ne vklopimo v meniju BiostileGifts.
 		'si'  => array(
-			'enabled' => true,
+			'enabled' => false,
 			'gifts'   => $si_gifts,
 			'strings' => bfg_strings_sl(),
 		),
