@@ -1,4 +1,4 @@
-# BiostileGifts
+# Biostile Gifts
 
 Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) za Biostile WooCommerce trge.
 
@@ -8,7 +8,7 @@ Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) za Biostile WooComme
 
 ## Admin
 
-Meni **BiostileGifts** (vsaka domena posebej): vklop/obdobje, način A/B, pragovi v valuti trga, darila (poteg za vrstni red, neobvezno ime/velikost), vsi teksti, predogled (`?bfg_preview=1`, samo admin), statistika.
+Meni **Biostile Gifts** (vsaka domena posebej): vklop/obdobje, način A/B, pragovi v valuti trga, darila (poteg za vrstni red, neobvezno ime/velikost), vsi teksti, predogled (`?bfg_preview=1`, samo admin), statistika.
 Nastavitve v adminu prepišejo privzete iz `includes/markets.php`.
 
 ## Trgi
@@ -33,10 +33,15 @@ Zasebni repozitorij: v `wp-config.php` vsake domene
 define( 'BFG_GITHUB_TOKEN', 'github_pat_...' ); // fine-grained, Contents: Read-only, samo ta repo
 ```
 
+## Pravilo
+
+Vtičnik se spreminja **samo prek tega repozitorija** (ne v urejevalniku na strežniku), sicer posodobitev prepiše ročne spremembe.
+Na strežnikih je nameščen v mapi `biostile-gifts/biostile-gifts.php`.
+
 ## Izdaja nove verzije
 
 1. Sprememba na veji `dev` → test na dev.biostile.si.
-2. Dvigni `Version` in `BFG_VERSION` v `biostile-bf-gifts.php`.
+2. Dvigni `Version` (in `BFG_VERSION`) v `biostile-gifts.php`.
 3. Merge `dev` → `main` – GitHub Action sam ustvari release `vX.Y.Z` (zip asset).
 
 ## Združljivost

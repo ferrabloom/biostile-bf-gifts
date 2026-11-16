@@ -1,6 +1,6 @@
 <?php
 /**
- * BiostileGifts – admin zavihek (nastavitve na vsaki domeni posebej) in statistika.
+ * Biostile Gifts – admin zavihek (nastavitve na vsaki domeni posebej) in statistika.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -71,7 +71,7 @@ add_action( 'admin_menu', function () {
 		implode( '', array_map( function ( $a ) {
 			return '<path transform="translate(12 12) rotate(' . ( $a + 45 ) . ') scale(.5) translate(-12 -21)" d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/>';
 		}, array( 0, 90, 180, 270 ) ) ) . '</g></svg>' );
-	add_menu_page( 'BiostileGifts', 'BiostileGifts', 'manage_woocommerce', 'biostile-gifts', 'bfg_admin_page', $icon, 56 );
+	add_menu_page( 'Biostile Gifts', 'Biostile Gifts', 'manage_woocommerce', 'biostile-gifts', 'bfg_admin_page', $icon, 57 );
 } );
 
 add_action( 'admin_enqueue_scripts', function ( $hook ) {
@@ -204,7 +204,7 @@ function bfg_admin_page() {
 	$active = bfg_is_active();
 	?>
 	<div class="wrap bfg-admin">
-		<h1>BiostileGifts <small style="font-size:13px;color:#646970">v<?php echo esc_html( BFG_VERSION ); ?> · trg: <?php echo esc_html( $c['market'] ?: '—' ); ?></small></h1>
+		<h1>Biostile Gifts <small style="font-size:13px;color:#646970">v<?php echo esc_html( BFG_VERSION ); ?> · trg: <?php echo esc_html( $c['market'] ?: '—' ); ?></small></h1>
 		<p>
 			Stanje: <?php echo $active ? '<strong style="color:#1C3A35">● aktivno</strong>' : '<strong style="color:#b32d2e">● neaktivno</strong>'; ?>
 			&nbsp;·&nbsp; <a class="button" href="<?php echo esc_url( add_query_arg( 'bfg_preview', 1, home_url( '/' ) ) ); ?>" target="_blank">Predogled na strani</a>

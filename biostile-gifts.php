@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: BiostileGifts
- * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni BiostileGifts.
- * Version: 0.4.5
+ * Plugin Name: Biostile Gifts
+ * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni Biostile Gifts.
+ * Version: 1.0.0
  * Author: Biostile
  * Requires Plugins: woocommerce
- * Text Domain: biostile-bf-gifts
+ * Text Domain: biostile-gifts
  * Update URI: https://github.com/ferrabloom/biostile-bf-gifts
  */
 
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '0.4.5' );
+define( 'BFG_VERSION', '0.4.4' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
@@ -55,7 +55,7 @@ add_filter( 'auto_update_plugin', function ( $update, $item ) {
 /* -------------------------------------------------------------------------
  * KONFIGURACIJA
  *  privzeto: includes/markets.php (po domeni),
- *  prepiše: nastavitve v adminu (meni BiostileGifts, opcija bfg_settings),
+ *  prepiše: nastavitve v adminu (meni Biostile Gifts, opcija bfg_settings),
  *  na koncu filter 'bfg_config'.
  * ---------------------------------------------------------------------- */
 

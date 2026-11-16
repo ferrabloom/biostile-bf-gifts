@@ -1,6 +1,6 @@
 name: Release
 
-# Ob pushu na main: če verzija v biostile-bf-gifts.php še nima releasa,
+# Ob pushu na main: če verzija v biostile-gifts.php še nima releasa,
 # zgradi zip in objavi release vX.Y.Z (tag ustvari GitHub sam).
 on:
   push:
@@ -21,10 +21,8 @@ jobs:
       - name: Verzija
         id: ver
         run: |
-          VER=$(grep -m1 -oP "Version:\s*\K[0-9.]+" biostile-bf-gifts.php)
-          CONST=$(grep -m1 -oP "BFG_VERSION', '\K[0-9.]+" biostile-bf-gifts.php)
-          echo "plugin=$VER const=$CONST"
-          test "$VER" = "$CONST"
+          VER=$(grep -m1 -oP "Version:\s*\K[0-9.]+" biostile-gifts.php)
+          echo "plugin=$VER"
           echo "version=$VER" >> "$GITHUB_OUTPUT"
           if git ls-remote --exit-code --tags origin "refs/tags/v$VER" >/dev/null; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
@@ -39,9 +37,10 @@ jobs:
       - name: Zgradi zip
         if: steps.ver.outputs.exists == 'false'
         run: |
-          mkdir -p build/biostile-bf-gifts
-          rsync -a --exclude .git --exclude .github --exclude build --exclude README.md ./ build/biostile-bf-gifts/
-          cd build && zip -rq biostile-bf-gifts.zip biostile-bf-gifts
+          # Mapa v zipu = mapa na strežnikih (biostile-gifts); ime asseta ostane biostile-bf-gifts.zip (iskalnik posodobitev v vtičniku).
+          mkdir -p build/biostile-gifts
+          rsync -a --exclude .git --exclude .github --exclude build --exclude README.md ./ build/biostile-gifts/
+          cd build && zip -rq biostile-bf-gifts.zip biostile-gifts
 
       - name: Objavi release
         if: steps.ver.outputs.exists == 'false'
