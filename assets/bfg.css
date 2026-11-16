@@ -174,3 +174,6 @@ body.woocommerce-checkout .wfacp_order_summary_container .cart_item:has(span.bfg
 @media(max-width:350px){#bfg-popup .bfg-gift{grid-template-columns:46px minmax(0,1fr) 84px;column-gap:7px}#bfg-popup .bfg-gift img{width:46px}#bfg-popup h2.bfg-title{font-size:24px}}
 @media(max-width:560px){#bfg-overlay .bfg-mini{align-items:flex-end;padding:0}#bfg-overlay .bfg-mini-card{border-radius:16px 16px 0 0;max-width:none}#bfg-overlay .bfg-mini-img img{height:140px}#bfg-overlay .bfg-mini-c{padding-bottom:calc(18px + env(safe-area-inset-bottom))}}
 @media(prefers-reduced-motion:reduce){.bfgb-prog i,#bfg-popup .bfg-fill,#bfg-popup .bfg-gift img{transition:none}}
+
+/* Način B: blok na strani košarice */
+.bfgb-page .bfgb{margin:0 0 20px;max-width:640px}

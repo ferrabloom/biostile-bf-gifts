@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biostile Gifts
  * Description: Free gifts of choice (1 / 2 / 3 gifts by spend tier) – gift box in the FunnelKit side cart and a pop-up. Settings: Biostile Gifts menu.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-gifts
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '1.2.1' );
+define( 'BFG_VERSION', '1.2.2' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
@@ -517,6 +517,15 @@ function bfg_state( $extra = array() ) {
 	$gifts   = bfg_gifts_display();
 	$show    = WC()->session ? (int) WC()->session->get( 'bfg_show' ) : 0;
 	$removed = WC()->session ? (int) WC()->session->get( 'bfg_removed' ) : 0;
+	if ( 'popup' === $c['mode'] ) {
+		// Način B: pop-up se odpre samo, ko se odklene novo darilo (dodajanje, količina, reload),
+		// in samo, če kupec še ni izbral vseh daril. Pod prvim pragom se ne odpre.
+		$seen = WC()->session ? (int) WC()->session->get( 'bfg_seen_allowed' ) : 0;
+		$show = ( $allowed > $seen && count( bfg_cart_gifts() ) < $allowed ) ? 1 : 0;
+		if ( WC()->session ) {
+			WC()->session->set( 'bfg_seen_allowed', $allowed );
+		}
+	}
 	if ( WC()->session ) {
 		WC()->session->set( 'bfg_show', 0 );
 		WC()->session->set( 'bfg_removed', 0 );
@@ -587,8 +596,8 @@ add_action( 'wc_ajax_bfg_track', function () {
  * BLOK V FUNNELKIT KOŠARICI (način A)
  * ---------------------------------------------------------------------- */
 
-function bfg_render_cart_block() {
-	if ( ! bfg_is_active() || 'cart' !== bfg_config()['mode'] || ! WC()->cart || WC()->cart->is_empty() ) {
+function bfg_render_cart_block( $mode = 'cart' ) {
+	if ( ! bfg_is_active() || ( is_string( $mode ) ? $mode : 'cart' ) !== bfg_config()['mode'] || ! WC()->cart || WC()->cart->is_empty() ) {
 		return;
 	}
 	$c       = bfg_config();
@@ -656,6 +665,12 @@ function bfg_render_cart_block() {
 	<?php
 }
 add_action( 'fkcart_before_cart_items', 'bfg_render_cart_block', 5 );
+// Način B (stara predloga brez FunnelKit, npr. HR): isti blok na strani košarice.
+add_action( 'woocommerce_before_cart_table', function () {
+	echo '<div class="bfgb-page">';
+	bfg_render_cart_block( 'popup' );
+	echo '</div>';
+}, 5 );
 
 /* -------------------------------------------------------------------------
  * FRONTEND

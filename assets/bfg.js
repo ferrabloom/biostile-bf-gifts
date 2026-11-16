@@ -23,6 +23,8 @@
 
 	function refreshCart() {
 		$(document.body).trigger('wc_fragment_refresh');
+		// Stran košarice (način B): osveži tabelo, da se pokaže darilo in posodobi blok.
+		if ($('.woocommerce-cart-form').length) $(document.body).trigger('wc_update_cart');
 		$(document.body).trigger('fkcart_update_side_cart', [false]);
 	}
 
@@ -184,9 +186,12 @@
 	window.bfgOpen = function () { return load(true); };
 
 	// Način A: klik »Zaključi nakup« v FunnelKit košarici – če darila niso izbrana, najprej pop-up.
-	if (D.mode === 'cart') {
+	// Način B: enako za gumbe »Na blagajno« na strani košarice in v mini košarici.
+	var checkoutSel = D.mode === 'cart' ? '#fkcart-checkout-button'
+		: '.wc-proceed-to-checkout a, a.checkout-button, .woocommerce-mini-cart__buttons a.checkout, a[href="' + D.checkoutUrl + '"]';
+	if (D.mode === 'cart' || D.mode === 'popup') {
 		document.addEventListener('click', function (e) {
-			var a = e.target && e.target.closest ? e.target.closest('#fkcart-checkout-button') : null;
+			var a = e.target && e.target.closest ? e.target.closest(checkoutSel) : null;
 			if (!a || bypass || e.ctrlKey || e.metaKey || e.shiftKey) return;
 			var href = a.getAttribute('href') || D.checkoutUrl;
 			var $b = $('.bfgb').first();
