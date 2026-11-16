@@ -14,6 +14,8 @@
 		var num = parts.join(D.decSep || ','), f = D.priceFormat || '%v\u00a0€';
 		return (neg ? '−' : '') + f.replace('%v', num).replace(/ /g, '\u00a0');
 	}
+	// Cena darila: pri valuti z 1 decimalko (KM) »0 KM« namesto »0,0 KM«; drugje kot doslej.
+	function zero() { return parseInt(D.decimals, 10) === 1 ? money(0).replace(/[,.]0(?=\D*$)/, '') : money(0); }
 	function from(amount) { return S.from.indexOf('%s') > -1 ? fmt(S.from, amount) : S.from + ' ' + amount; }
 	function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 	function fmt(s) { var a = [].slice.call(arguments, 1), i = 0; return String(s).replace(/%(\d\$)?s/g, function (m, n) { return n ? a[parseInt(n, 10) - 1] : a[i++]; }); }
@@ -85,7 +87,7 @@
 			h += '<div class="bfg-gift' + (sel ? ' is-selected' : '') + '"><span class="bfg-free">' + esc(S.free) + '</span>';
 			h += '<a class="bfg-img" href="' + esc(g.url || '#') + '" data-id="' + g.id + '" aria-label="' + esc(S.more + ' ' + g.name) + '"><img src="' + esc(g.image) + '" alt="' + esc(g.name) + '" loading="lazy"></a>';
 			h += '<p class="bfg-name">' + esc(g.name) + '</p><div class="bfg-size">' + esc(g.size) + '</div>';
-			h += '<div class="bfg-price"><del aria-label="' + esc(S.regular) + ' ' + esc(money(g.regular)) + '">' + money(g.regular) + '</del><strong>' + money(0) + '</strong></div>';
+			h += '<div class="bfg-price"><del aria-label="' + esc(S.regular) + ' ' + esc(money(g.regular)) + '">' + money(g.regular) + '</del><strong>' + zero() + '</strong></div>';
 			h += '<button type="button" class="bfg-more" data-id="' + g.id + '">' + esc(S.more) + '</button>';
 			h += '<button type="button" class="bfg-choose" data-id="' + g.id + '" aria-pressed="' + sel + '"' + ((n === 0 || !g.in_stock) && !sel ? ' disabled' : '') + '>' + esc(sel ? S.chosen : S.choose) + '</button></div>';
 		});
@@ -104,7 +106,7 @@
 		h += '<div class="bfg-mini-img"><span class="bfg-mini-free">' + esc(S.free_gift) + '</span><button type="button" class="bfg-mini-x" aria-label="' + esc(S.close) + '">×</button><img src="' + esc(g.image_lg || g.image) + '" alt="' + esc(g.name) + '"></div>';
 		h += '<div class="bfg-mini-c"><h3 id="bfg-mini-title">' + esc(g.name) + '</h3>' + (g.size ? '<div class="bfg-mini-sz">' + esc(g.size) + '</div>' : '');
 		if (g.desc) h += '<p class="bfg-mini-desc">' + esc(g.desc) + '</p>';
-		h += '<div class="bfg-mini-pr"><del>' + money(g.regular) + '</del><strong>' + money(0) + '</strong></div>';
+		h += '<div class="bfg-mini-pr"><del>' + money(g.regular) + '</del><strong>' + zero() + '</strong></div>';
 		if (!can && n === 0) h += '<p class="bfg-mini-note">' + fmt(S.nudge, esc(NTH[0]), money(state.thresholds[0] - state.total)) + '</p>';
 		h += '<div class="bfg-mini-btns"><button type="button" class="bfg-mini-back">' + esc(S.back) + '</button>';
 		h += '<button type="button" class="bfg-mini-pick' + (sel ? ' is-selected' : '') + '" data-id="' + id + '"' + (can ? '' : ' disabled') + '>' + esc(sel ? S.unpick : S.pick) + '</button></div>';
