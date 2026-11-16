@@ -109,6 +109,15 @@ add_action( 'admin_post_bfg_save', function () {
 	sort( $th );
 	$s['thresholds'] = array_slice( $th, 0, 3 );
 
+	$ex = array();
+	foreach ( preg_split( '/[\r\n,]+/', (string) ( $in['exclude'] ?? '' ) ) as $line ) {
+		$line = sanitize_text_field( trim( $line ) );
+		if ( '' !== $line ) {
+			$ex[] = $line;
+		}
+	}
+	$s['exclude'] = array_values( array_unique( $ex ) );
+
 	$gifts = array();
 	foreach ( (array) ( $in['gifts'] ?? array() ) as $g ) {
 		$id = absint( $g['id'] ?? 0 );
@@ -254,6 +263,26 @@ function bfg_admin_page() {
 							<?php echo (int) ( $i + 1 ); ?>. darilo od <input type="number" step="0.01" min="0" name="thresholds[]" value="<?php echo esc_attr( $th[ $i ] ?? '' ); ?>"> &nbsp;
 						<?php endfor; ?>
 						<p class="description">Vrednost izdelkov po popustih z DDV, brez dostave. Prazno polje = manj stopenj.</p>
+					</td></tr>
+					<tr><th>Ne štej v prag</th><td>
+						<textarea name="exclude" rows="5" cols="40" style="font-family:monospace"><?php echo esc_textarea( implode( "\n", (array) ( $s['exclude'] ?? $c['exclude'] ?? array() ) ) ); ?></textarea>
+						<p class="description">SKU artiklov, ki se lahko kupijo, a ne štejejo v znesek za darila (darilni boni, katalog, shaker, e-vodiči …). En SKU na vrstico, <code>*</code> = karkoli (npr. <code>DARILNI BON*</code>).</p>
+						<?php
+						$ex_ids = array();
+						foreach ( (array) ( $c['exclude'] ?? array() ) as $pat ) {
+							$pat = trim( (string) $pat );
+							if ( '' === $pat ) { continue; }
+							global $wpdb;
+							$like = str_replace( '*', '%', $wpdb->esc_like( $pat ) );
+							$ids  = $wpdb->get_col( $wpdb->prepare( "SELECT p.ID FROM {$wpdb->posts} p JOIN {$wpdb->postmeta} m ON m.post_id = p.ID AND m.meta_key = '_sku' WHERE m.meta_value LIKE %s AND p.post_type IN ('product','product_variation') AND p.post_status = 'publish' LIMIT 50", $like ) );
+							$ex_ids = array_merge( $ex_ids, array_map( 'intval', $ids ) );
+						}
+						$ex_ids = array_unique( $ex_ids );
+						if ( $ex_ids ) :
+							?>
+							<p class="description"><strong>Trenutno izključeno (<?php echo count( $ex_ids ); ?>):</strong>
+							<?php echo esc_html( implode( ', ', array_filter( array_map( function ( $id ) { $p = wc_get_product( $id ); return $p ? $p->get_name() : ''; }, $ex_ids ) ) ) ); ?></p>
+						<?php endif; ?>
 					</td></tr>
 					<tr><th>Darila</th><td>
 						<ul class="bfg-gifts-list" id="bfg-gifts">

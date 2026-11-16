@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biostile Gifts
  * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni Biostile Gifts.
- * Version: 1.1.3
+ * Version: 1.2.0
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-gifts
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '1.1.3' );
+define( 'BFG_VERSION', '1.2.0' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
@@ -110,6 +110,9 @@ function bfg_config() {
 		}
 		if ( ! empty( $s['thresholds'] ) ) {
 			$config['thresholds'] = array_values( $s['thresholds'] );
+		}
+		if ( isset( $s['exclude'] ) ) {
+			$config['exclude'] = (array) $s['exclude'];
 		}
 		if ( isset( $s['gifts'] ) ) {
 			// display_price (samo dev) ohranimo iz markets.php.
@@ -217,14 +220,41 @@ function bfg_is_gift_item( $item ) {
  * IZRAČUN
  * ---------------------------------------------------------------------- */
 
-/** Vrednost izdelkov po popustih (z DDV), brez dostave in brez daril. */
+/** Ali artikel ne šteje v prag (SKU izdelka ali starša se ujema z vzorcem iz »exclude«). */
+function bfg_is_excluded_product( $product ) {
+	if ( ! $product instanceof WC_Product ) {
+		return false;
+	}
+	$skus = array( $product->get_sku() );
+	if ( $product->get_parent_id() ) {
+		$parent = wc_get_product( $product->get_parent_id() );
+		if ( $parent ) {
+			$skus[] = $parent->get_sku();
+		}
+	}
+	foreach ( (array) ( bfg_config()['exclude'] ?? array() ) as $pattern ) {
+		$pattern = strtoupper( trim( (string) $pattern ) );
+		if ( '' === $pattern ) {
+			continue;
+		}
+		$re = '/^' . str_replace( '\\*', '.*', preg_quote( $pattern, '/' ) ) . '$/';
+		foreach ( $skus as $sku ) {
+			if ( '' !== (string) $sku && preg_match( $re, strtoupper( trim( (string) $sku ) ) ) ) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+/** Vrednost izdelkov po popustih (z DDV), brez dostave, brez daril in brez izključenih artiklov. */
 function bfg_eligible_total() {
 	if ( ! WC()->cart ) {
 		return 0;
 	}
 	$total = 0;
 	foreach ( WC()->cart->get_cart() as $item ) {
-		if ( bfg_is_gift_item( $item ) ) {
+		if ( bfg_is_gift_item( $item ) || bfg_is_excluded_product( $item['data'] ?? null ) ) {
 			continue;
 		}
 		$total += (float) ( $item['line_total'] ?? 0 ) + (float) ( $item['line_tax'] ?? 0 );

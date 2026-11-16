@@ -35,6 +35,8 @@ function bfg_market_defaults() {
 		'timezone'   => 'Europe/Ljubljana',
 		'thresholds' => array( 100, 150, 200 ), // 1, 2, 3 darila (v valuti trga).
 		'gifts'      => array(),
+		// Artikli, ki ne štejejo v prag (SKU, * = karkoli): boni, katalog, shaker, e-vodiči, merch.
+		'exclude'    => array( 'DARILNI BON*', '68000008', '69990013', 'DIGITALNIVODIC*', 'GIFT:*' ),
 		'strings'    => array(),
 		// Bel logotip z deteljico (temno ozadje pop-upa).
 		'logo'       => 'https://www.biostile.si/wp-content/uploads/2026/01/Nov-logo-Biostile-8.png',
