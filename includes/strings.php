@@ -248,6 +248,104 @@ function bfg_strings_hr() {
 	);
 }
 
+/** Srbija – srpski, latinica, ekavica. */
+function bfg_strings_sr() {
+	return array(
+		'campaign'   => 'Black Friday',
+		'event'      => 'BLACK FRIDAY AKCIJA',
+		'title'      => 'Popusti do <span>−60%</span>',
+		'title_sub'  => '+ besplatni pokloni po izboru',
+		'subtitle'   => 'Uz svaku kupovinu dobijate i <strong>kod za −25%</strong> za sledeću kupovinu.',
+		'cart_value' => 'Vrednost vaše korpe',
+		'gift_1'     => '1 poklon',
+		'gift_2'     => '2 poklona',
+		'gift_3'     => '3 poklona',
+		'from'       => 'od %s',
+		'head_0'     => 'Izaberite poklon uz kupovinu od %s',
+		'head_1'     => 'Izaberite 1 besplatan poklon',
+		'head_2'     => 'Izaberite 2 besplatna poklona',
+		'head_3'     => 'Izaberite 3 besplatna poklona',
+		'selected'   => 'Izabrano',
+		'nudge'      => 'Do %1$s poklona nedostaje vam još samo <strong>%2$s</strong>.',
+		'nth_1'      => 'prvog',
+		'nth_2'      => 'drugog',
+		'nth_3'      => 'trećeg',
+		'nudge_all'  => '<strong>Čestitamo! Pripadaju vam 3 besplatna poklona.</strong>',
+		'choose'     => '+ Izaberi poklon',
+		'chosen'     => '✓ Izabrano',
+		'swap'       => 'Za zamenu prvo poništite izbor jednog od izabranih poklona.',
+		'continue'   => 'NASTAVI KUPOVINU',
+		'checkout'   => 'ZAVRŠI KUPOVINU',
+		'unpicked'   => 'Još imate neizabrane poklone. Izaberite ih ili ponovo kliknite za kupovinu bez njih.',
+		'note'       => 'Pokloni važe za vrednost proizvoda nakon popusta, bez poštarine.',
+		'removed'    => 'Vrednost korpe se smanjila, pa smo uklonili poklon.',
+		'error'      => 'Došlo je do greške. Pokušajte ponovo.',
+		'close'      => 'Zatvori',
+		'regular'    => 'Redovna cena',
+		'cart_label' => 'BF poklon',
+		'meta_label' => 'Poklon',
+		'more'       => 'Saznaj više »',
+		'free'       => 'BESPLATNO',
+		'free_gift'  => 'BESPLATAN POKLON',
+		'pick'       => '+ Izaberi ovaj poklon',
+		'unpick'     => 'Ukloni poklon',
+		'back'       => '‹ Nazad',
+		'block_tag'  => 'Besplatni pokloni',
+		'block_btn'  => 'Izaberi besplatan poklon (%1$s/%2$s) »',
+		'block_done' => 'Izabrani pokloni (%1$s/%2$s) – promeni »',
+		'block_view' => 'Pogledaj poklone »',
+	);
+}
+
+/** Bosna i Hercegovina – bosanski, ijekavica. */
+function bfg_strings_bs() {
+	return array(
+		'campaign'   => 'Black Friday',
+		'event'      => 'BLACK FRIDAY AKCIJA',
+		'title'      => 'Popusti do <span>−60%</span>',
+		'title_sub'  => '+ besplatni pokloni po izboru',
+		'subtitle'   => 'Uz svaku kupovinu dobijate i <strong>kod za −25%</strong> za sljedeću kupovinu.',
+		'cart_value' => 'Vrijednost vaše korpe',
+		'gift_1'     => '1 poklon',
+		'gift_2'     => '2 poklona',
+		'gift_3'     => '3 poklona',
+		'from'       => 'od %s',
+		'head_0'     => 'Odaberite poklon uz kupovinu od %s',
+		'head_1'     => 'Odaberite 1 besplatan poklon',
+		'head_2'     => 'Odaberite 2 besplatna poklona',
+		'head_3'     => 'Odaberite 3 besplatna poklona',
+		'selected'   => 'Odabrano',
+		'nudge'      => 'Do %1$s poklona nedostaje vam još samo <strong>%2$s</strong>.',
+		'nth_1'      => 'prvog',
+		'nth_2'      => 'drugog',
+		'nth_3'      => 'trećeg',
+		'nudge_all'  => '<strong>Čestitamo! Pripadaju vam 3 besplatna poklona.</strong>',
+		'choose'     => '+ Odaberi poklon',
+		'chosen'     => '✓ Odabrano',
+		'swap'       => 'Za zamjenu prvo poništite odabir jednog od odabranih poklona.',
+		'continue'   => 'NASTAVI KUPOVINU',
+		'checkout'   => 'ZAVRŠI KUPOVINU',
+		'unpicked'   => 'Još imate neodabrane poklone. Odaberite ih ili ponovo kliknite za kupovinu bez njih.',
+		'note'       => 'Pokloni vrijede za vrijednost proizvoda nakon popusta, bez poštarine.',
+		'removed'    => 'Vrijednost korpe se smanjila, pa smo uklonili poklon.',
+		'error'      => 'Došlo je do greške. Pokušajte ponovo.',
+		'close'      => 'Zatvori',
+		'regular'    => 'Redovna cijena',
+		'cart_label' => 'BF poklon',
+		'meta_label' => 'Poklon',
+		'more'       => 'Saznaj više »',
+		'free'       => 'BESPLATNO',
+		'free_gift'  => 'BESPLATAN POKLON',
+		'pick'       => '+ Odaberi ovaj poklon',
+		'unpick'     => 'Ukloni poklon',
+		'back'       => '‹ Nazad',
+		'block_tag'  => 'Besplatni pokloni',
+		'block_btn'  => 'Odaberi besplatan poklon (%1$s/%2$s) »',
+		'block_done' => 'Odabrani pokloni (%1$s/%2$s) – promijeni »',
+		'block_view' => 'Pogledaj poklone »',
+	);
+}
+
 /**
  * Darila po SKU (EAN; nekateri izdelki imajo na SK/CZ/HU/IT drug EAN – navedena sta oba) z imenom in opisom velikosti v jeziku trga.
  * Darilo, ki na domeni ni objavljeno, se samodejno izpusti (in se pojavi, ko ga objavite).
@@ -259,6 +357,8 @@ function bfg_gifts_for( $lang ) {
 		'cs' => array( 'Denní krém, 50 ml', 'Oční krém, 15 ml', 'Šampon, 200 ml', 'Hydratační intimní gel, 50 ml', 'Samoopalovací sprej, 150 ml', 'Anticelulitidní krém, 150 ml' ),
 		'hu' => array( 'Nappali krém, 50 ml', 'Szemkörnyékápoló krém, 15 ml', 'Sampon, 200 ml', 'Hidratáló intim gél, 50 ml', 'Önbarnító spray, 150 ml', 'Narancsbőr elleni krém, 150 ml' ),
 		'it' => array( 'Crema giorno, 50 ml', 'Crema contorno occhi, 15 ml', 'Shampoo, 200 ml', 'Gel intimo idratante, 50 ml', 'Spray autoabbronzante, 150 ml', 'Crema anticellulite, 150 ml' ),
+		'sr' => array( 'Dnevna krema, 50 ml', 'Krema za oči, 15 ml', 'Šampon, 200 ml', 'Hidratantni intimni gel, 50 ml', 'Sprej za samopotamnjivanje, 150 ml', 'Anticelulit krema, 150 ml' ),
+		'bs' => array( 'Dnevna krema, 50 ml', 'Krema za oči, 15 ml', 'Šampon, 200 ml', 'Hidratantni intimni gel, 50 ml', 'Sprej za samotamnjenje, 150 ml', 'Anticelulitna krema, 150 ml' ),
 		'hr' => array( 'Dnevna krema, 50 ml', 'Krema za područje oko očiju, 15 ml', 'Šampon, 200 ml', 'Hidratantni intimni gel, 50 ml', 'Sprej za samotamnjenje, 150 ml', 'Anticelulitna krema, 150 ml' ),
 	);
 	$base = array(

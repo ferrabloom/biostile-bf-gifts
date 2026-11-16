@@ -19,6 +19,7 @@ Domena izbere trg v `includes/markets.php`:
 |---|---|---|
 | dev.biostile.si | dev | aktiven vedno (test), posodobitve z veje `dev` |
 | biostile.si | si | izklopljen, vklop ročno v meniju BiostileGifts |
+| biostile.rs / .ba | rs, ba | izklopljen (srbski/bosanski prevod, 4 darila, način A) |
 | biostile.sk / .cz / .hu / .hr, bio-stile.it | sk, cz, hu, hr, it | izklopljen (prevodi, darila po SKU in pragovi pripravljeni; HR = način B) |
 
 ## Posodobitve
