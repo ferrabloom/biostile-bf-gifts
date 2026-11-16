@@ -28,7 +28,7 @@ function bfg_market_defaults() {
 	return array(
 		'enabled'    => false,
 		'mode'       => 'cart', // cart = A (blok v košarici + pop-up ob zaključku), popup = B (pop-up ob dodajanju).
-		'start'      => '2026-11-17 00:00:00',
+		'start'      => '2026-11-16 00:00:00',
 		'end'        => '2026-11-30 23:59:59',
 		'timezone'   => 'Europe/Ljubljana',
 		'thresholds' => array( 100, 150, 200 ), // 1, 2, 3 darila (v valuti trga).
@@ -122,19 +122,19 @@ function bfg_markets() {
 			'gifts'   => bfg_gifts_for( 'sk' ),
 			'strings' => bfg_strings_sk(),
 		),
-		// CZK: ~25 Kč = 1 € (razmerje cen na biostile.cz), zaokroženo navzgor na marketinško vrednost.
+		// CZK: pragovi kot na BF bannerjih (nad 2 500 / 3 700 / 4 900 Kč).
 		'cz'  => array(
 			'logo'       => 'https://www.biostile.cz/wp-content/uploads/2026/10/logo-Biostile-CZ-white.png', // bel logotip trga (slogan v jeziku trga)
 			'enabled'    => false,
-			'thresholds' => array( 2500, 3750, 5000 ),
+			'thresholds' => array( 2500, 3700, 4900 ),
 			'gifts'      => bfg_gifts_for( 'cs' ),
 			'strings'    => bfg_strings_cs(),
 		),
-		// HUF: ~394 Ft = 1 € (razmerje cen na biostile.hu), zaokroženo na okrogle zneske.
+		// HUF: pragovi kot na BF bannerjih (36 500 / 54 500 / 72 500 Ft felett).
 		'hu'  => array(
 			'logo'       => 'https://www.biostile.hu/wp-content/uploads/2026/10/logo-Biostile-HU-white.png', // bel logotip trga (slogan v jeziku trga)
 			'enabled'    => false,
-			'thresholds' => array( 40000, 60000, 80000 ),
+			'thresholds' => array( 36500, 54500, 72500 ),
 			'gifts'      => bfg_gifts_for( 'hu' ),
 			'strings'    => bfg_strings_hu(),
 		),
