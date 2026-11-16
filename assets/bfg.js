@@ -187,11 +187,16 @@
 
 	// Način A: klik »Zaključi nakup« v FunnelKit košarici – če darila niso izbrana, najprej pop-up.
 	// Način B: enako za gumbe »Na blagajno« na strani košarice in v mini košarici.
-	var checkoutSel = D.mode === 'cart' ? '#fkcart-checkout-button'
-		: '.wc-proceed-to-checkout a, a.checkout-button, .woocommerce-mini-cart__buttons a.checkout, a[href="' + D.checkoutUrl + '"]';
+	// Pri B štejejo samo povezave, ki res vodijo na blagajno (ne »Nastavi kupovinu« v istem bloku).
+	function checkoutLink(t) {
+		if (!t || !t.closest) return null;
+		if (D.mode === 'cart') return t.closest('#fkcart-checkout-button');
+		var a = t.closest('a[href]');
+		return a && a.href.split('#')[0].split('?')[0].replace(/\/$/, '') === D.checkoutUrl.split('?')[0].replace(/\/$/, '') ? a : null;
+	}
 	if (D.mode === 'cart' || D.mode === 'popup') {
 		document.addEventListener('click', function (e) {
-			var a = e.target && e.target.closest ? e.target.closest(checkoutSel) : null;
+			var a = checkoutLink(e.target);
 			if (!a || bypass || e.ctrlKey || e.metaKey || e.shiftKey) return;
 			var href = a.getAttribute('href') || D.checkoutUrl;
 			var $b = $('.bfgb').first();
