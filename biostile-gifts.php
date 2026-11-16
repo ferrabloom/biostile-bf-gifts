@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Biostile Gifts
- * Description: Brezplačna darila po izbiri (1 / 2 / 3 darila po pragovih) – blok v FunnelKit košarici in pop-up. Nastavitve: meni Biostile Gifts.
- * Version: 1.2.0
+ * Description: Free gifts of choice (1 / 2 / 3 gifts by spend tier) – gift box in the FunnelKit side cart and a pop-up. Settings: Biostile Gifts menu.
+ * Version: 1.2.1
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-gifts
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '1.2.0' );
+define( 'BFG_VERSION', '1.2.1' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );

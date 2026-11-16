@@ -13,49 +13,49 @@ const BFG_STATS  = 'bfg_stats';
 /** Opisi tekstov za admin (ključ => [oznaka, kje se prikaže]). */
 function bfg_string_labels() {
 	return array(
-		'campaign'   => array( 'Ime akcije', 'Na naročilu (»Darilo: …«) in v statistiki' ),
-		'event'      => array( 'Oznaka akcije', 'Zelena oznaka v pop-upu in naslov bloka v košarici' ),
-		'title'      => array( 'Naslov pop-upa', 'HTML: <span>…</span> obarva besedo zeleno' ),
-		'title_sub'  => array( 'Podnaslov pop-upa', '' ),
-		'subtitle'   => array( 'Kupon vrstica', 'HTML dovoljen (<strong>)' ),
-		'block_tag'  => array( 'Blok: desni napis', 'Desno v temni glavi bloka v košarici' ),
-		'block_btn'  => array( 'Blok: gumb', '%1$s = izbrano, %2$s = na voljo' ),
-		'block_done' => array( 'Blok: gumb, ko so vsa darila izbrana', '%1$s = izbrano, %2$s = na voljo' ),
-		'block_view' => array( 'Blok: gumb pod prvim pragom', '' ),
-		'cart_value' => array( 'Vrednost košarice', '' ),
-		'gift_1'     => array( '1 darilo', 'Mejnik' ),
-		'gift_2'     => array( '2 darili', 'Mejnik' ),
-		'gift_3'     => array( '3 darila', 'Mejnik' ),
-		'from'       => array( '»od« pri mejniku', '%s = znesek, npr. »od %s«' ),
-		'head_0'     => array( 'Naslov seznama – pod pragom', '%s = prvi prag' ),
-		'head_1'     => array( 'Naslov seznama – 1 darilo', '' ),
-		'head_2'     => array( 'Naslov seznama – 2 darili', '' ),
-		'head_3'     => array( 'Naslov seznama – 3 darila', '' ),
-		'selected'   => array( 'Izbrano', 'Števec »Izbrano: 1 / 2«' ),
-		'nudge'      => array( 'Manjka do darila', '%1$s = prvega/drugega/tretjega, %2$s = znesek' ),
-		'nth_1'      => array( 'prvega', '' ),
-		'nth_2'      => array( 'drugega', '' ),
-		'nth_3'      => array( 'tretjega', '' ),
-		'nudge_all'  => array( 'Vsa darila dosežena', 'HTML dovoljen' ),
-		'free'       => array( 'Oznaka BREZPLAČNO', 'Na kartici darila' ),
-		'choose'     => array( 'Gumb izberi', '' ),
-		'chosen'     => array( 'Gumb izbrano', '' ),
-		'more'       => array( 'Izvedi več', 'Povezava pod darilom' ),
-		'free_gift'  => array( 'Oznaka v mini oknu', '' ),
-		'pick'       => array( 'Mini okno: izberi', '' ),
-		'unpick'     => array( 'Mini okno: odstrani', '' ),
-		'back'       => array( 'Mini okno: nazaj', '' ),
-		'swap'       => array( 'Opozorilo: zamenjava', '' ),
-		'continue'   => array( 'Gumb nadaljuj', '' ),
-		'checkout'   => array( 'Gumb zaključi nakup', '' ),
-		'unpicked'   => array( 'Opozorilo: neizbrana darila', '' ),
-		'note'       => array( 'Opomba pod gumbi', '' ),
-		'removed'    => array( 'Obvestilo: darilo odstranjeno', '' ),
-		'error'      => array( 'Napaka', '' ),
-		'close'      => array( 'Zapri (za bralnike zaslona)', '' ),
-		'regular'    => array( 'Redna cena (za bralnike zaslona)', '' ),
-		'cart_label' => array( 'Oznaka v košarici', 'Ob imenu darila v košarici' ),
-		'meta_label' => array( 'Oznaka na naročilu', '»Darilo«' ),
+		'campaign'   => array( 'Campaign name', 'Shown on orders ("Gift: …") and in stats' ),
+		'event'      => array( 'Campaign badge', 'Green badge in the pop-up and title of the cart box' ),
+		'title'      => array( 'Pop-up title', 'Wrap a word in <span>…</span> to make it green' ),
+		'title_sub'  => array( 'Pop-up subtitle', '' ),
+		'subtitle'   => array( 'Coupon line (below title)', 'You can use <strong> for bold' ),
+		'block_tag'  => array( 'Cart box – top right label', 'Right side of the dark header in the cart box' ),
+		'block_btn'  => array( 'Cart box – button', '%1$s = picked, %2$s = available' ),
+		'block_done' => array( 'Cart box – button when all gifts are picked', '%1$s = picked, %2$s = available' ),
+		'block_view' => array( 'Cart box – button before the first tier', '' ),
+		'cart_value' => array( 'Cart value label', '' ),
+		'gift_1'     => array( 'Tier label – 1 gift', '' ),
+		'gift_2'     => array( 'Tier label – 2 gifts', '' ),
+		'gift_3'     => array( 'Tier label – 3 gifts', '' ),
+		'from'       => array( 'Tier amount ("from …")', '%s = amount' ),
+		'head_0'     => array( 'Heading before the first tier', '%s = first tier amount' ),
+		'head_1'     => array( 'Heading when 1 gift is unlocked', '' ),
+		'head_2'     => array( 'Heading when 2 gifts are unlocked', '' ),
+		'head_3'     => array( 'Heading when 3 gifts are unlocked', '' ),
+		'selected'   => array( 'Picked counter', 'e.g. "Picked: 1 / 2"' ),
+		'nudge'      => array( '"Spend X more" message', '%1$s = first/second/third, %2$s = amount' ),
+		'nth_1'      => array( 'Word for "first"', '' ),
+		'nth_2'      => array( 'Word for "second"', '' ),
+		'nth_3'      => array( 'Word for "third"', '' ),
+		'nudge_all'  => array( 'All gifts unlocked message', 'You can use <strong> for bold' ),
+		'free'       => array( '"Free" badge', 'On the gift card' ),
+		'choose'     => array( 'Gift card – Pick button', '' ),
+		'chosen'     => array( 'Gift card – Picked button', '' ),
+		'more'       => array( 'Gift card – Learn more link', '' ),
+		'free_gift'  => array( 'Product details – badge', '' ),
+		'pick'       => array( 'Product details – Add button', '' ),
+		'unpick'     => array( 'Product details – Remove button', '' ),
+		'back'       => array( 'Product details – Back link', '' ),
+		'swap'       => array( 'Notice: all gifts already picked', '' ),
+		'continue'   => array( 'Continue shopping button', '' ),
+		'checkout'   => array( 'Checkout button', '' ),
+		'unpicked'   => array( 'Notice: gifts not picked yet', '' ),
+		'note'       => array( 'Small print below the buttons', '' ),
+		'removed'    => array( 'Notice: gift removed', '' ),
+		'error'      => array( 'Error message', '' ),
+		'close'      => array( 'Close (screen readers)', '' ),
+		'regular'    => array( 'Regular price (screen readers)', '' ),
+		'cart_label' => array( 'Label in cart', 'Next to the gift name in the cart' ),
+		'meta_label' => array( 'Label on order', 'e.g. "Gift"' ),
 	);
 }
 
@@ -87,7 +87,7 @@ add_action( 'admin_enqueue_scripts', function ( $hook ) {
 
 add_action( 'admin_post_bfg_save', function () {
 	if ( ! current_user_can( 'manage_woocommerce' ) ) {
-		wp_die( 'Ni dovoljenja.' );
+		wp_die( 'You are not allowed to do this.' );
 	}
 	check_admin_referer( 'bfg_save' );
 	$in = wp_unslash( $_POST ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
@@ -149,7 +149,7 @@ add_action( 'admin_post_bfg_save', function () {
 
 add_action( 'admin_post_bfg_reset_stats', function () {
 	if ( ! current_user_can( 'manage_woocommerce' ) ) {
-		wp_die( 'Ni dovoljenja.' );
+		wp_die( 'You are not allowed to do this.' );
 	}
 	check_admin_referer( 'bfg_reset_stats' );
 	delete_option( BFG_STATS );
@@ -213,18 +213,18 @@ function bfg_admin_page() {
 	$active = bfg_is_active();
 	?>
 	<div class="wrap bfg-admin">
-		<h1>Biostile Gifts <small style="font-size:13px;color:#646970">v<?php echo esc_html( BFG_VERSION ); ?> · trg: <?php echo esc_html( $c['market'] ?: '—' ); ?></small></h1>
+		<h1>Biostile Gifts <small style="font-size:13px;color:#646970">v<?php echo esc_html( BFG_VERSION ); ?> · market: <?php echo esc_html( $c['market'] ?: '—' ); ?></small></h1>
 		<p>
-			Stanje: <?php echo $active ? '<strong style="color:#1C3A35">● aktivno</strong>' : '<strong style="color:#b32d2e">● neaktivno</strong>'; ?>
-			&nbsp;·&nbsp; <a class="button" href="<?php echo esc_url( add_query_arg( 'bfg_preview', 1, home_url( '/' ) ) ); ?>" target="_blank">Predogled na strani</a>
-			<span class="description">(vidiš samo ti kot administrator, tudi ko je akcija izklopljena)</span>
+			Status: <?php echo $active ? '<strong style="color:#1C3A35">● Live</strong>' : '<strong style="color:#b32d2e">● Off</strong>'; ?>
+			&nbsp;·&nbsp; <a class="button" href="<?php echo esc_url( add_query_arg( 'bfg_preview', 1, home_url( '/' ) ) ); ?>" target="_blank">Preview on site</a>
+			<span class="description">(only admins see the preview, even when the campaign is off)</span>
 		</p>
 		<?php if ( ! empty( $_GET['saved'] ) ) : // phpcs:ignore ?>
-			<div class="notice notice-success is-dismissible"><p>Shranjeno.</p></div>
+			<div class="notice notice-success is-dismissible"><p>Changes saved.</p></div>
 		<?php endif; ?>
 		<nav class="nav-tab-wrapper">
-			<a class="nav-tab <?php echo 'settings' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $base ); ?>">Nastavitve</a>
-			<a class="nav-tab <?php echo 'stats' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $base . '&tab=stats' ); ?>">Statistika</a>
+			<a class="nav-tab <?php echo 'settings' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $base ); ?>">Settings</a>
+			<a class="nav-tab <?php echo 'stats' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $base . '&tab=stats' ); ?>">Stats</a>
 		</nav>
 		<style>
 			.bfg-admin .form-table th{width:220px}
@@ -244,29 +244,29 @@ function bfg_admin_page() {
 			<?php wp_nonce_field( 'bfg_save' ); ?>
 			<div>
 				<table class="form-table" role="presentation">
-					<tr><th>Akcija</th><td>
-						<label><input type="radio" name="schedule" value="off" <?php checked( $sched, 'off' ); ?>> Izklopljena</label><br>
-						<label><input type="radio" name="schedule" value="dates" <?php checked( $sched, 'dates' ); ?>> Vklopljena v obdobju spodaj</label><br>
-						<label><input type="radio" name="schedule" value="always" <?php checked( $sched, 'always' ); ?>> Vedno vklopljena</label>
+					<tr><th>Status</th><td>
+						<label><input type="radio" name="schedule" value="off" <?php checked( $sched, 'off' ); ?>> Off</label><br>
+						<label><input type="radio" name="schedule" value="dates" <?php checked( $sched, 'dates' ); ?>> Scheduled (dates below)</label><br>
+						<label><input type="radio" name="schedule" value="always" <?php checked( $sched, 'always' ); ?>> Always on</label>
 					</td></tr>
-					<tr><th>Obdobje</th><td>
-						od <input type="datetime-local" name="start" value="<?php echo esc_attr( str_replace( ' ', 'T', substr( $s['start'] ?? $c['start'], 0, 16 ) ) ); ?>">
-						do <input type="datetime-local" name="end" value="<?php echo esc_attr( str_replace( ' ', 'T', substr( $s['end'] ?? $c['end'], 0, 16 ) ) ); ?>">
-						<p class="description">Časovni pas: <?php echo esc_html( $c['timezone'] ); ?></p>
+					<tr><th>Campaign dates</th><td>
+						From <input type="datetime-local" name="start" value="<?php echo esc_attr( str_replace( ' ', 'T', substr( $s['start'] ?? $c['start'], 0, 16 ) ) ); ?>">
+						to <input type="datetime-local" name="end" value="<?php echo esc_attr( str_replace( ' ', 'T', substr( $s['end'] ?? $c['end'], 0, 16 ) ) ); ?>">
+						<p class="description">Time zone: <?php echo esc_html( $c['timezone'] ); ?></p>
 					</td></tr>
-					<tr><th>Prikaz</th><td>
-						<label><input type="radio" name="mode" value="cart" <?php checked( $s['mode'] ?? $c['mode'], 'cart' ); ?>> <strong>A</strong> – blok v košarici (FunnelKit) + pop-up ob »Zaključi nakup«, če darila niso izbrana</label><br>
-						<label><input type="radio" name="mode" value="popup" <?php checked( $s['mode'] ?? $c['mode'], 'popup' ); ?>> <strong>B</strong> – pop-up takoj ob dodajanju v košarico</label>
+					<tr><th>Display</th><td>
+						<label><input type="radio" name="mode" value="cart" <?php checked( $s['mode'] ?? $c['mode'], 'cart' ); ?>> <strong>In cart</strong> – gift box in the side cart, plus a reminder at checkout if no gift is picked</label><br>
+						<label><input type="radio" name="mode" value="popup" <?php checked( $s['mode'] ?? $c['mode'], 'popup' ); ?>> <strong>Pop-up</strong> – opens as soon as a product is added to cart</label>
 					</td></tr>
-					<tr><th>Pragovi (<?php echo esc_html( get_woocommerce_currency_symbol() ); ?>)</th><td class="bfg-th">
+					<tr><th>Spend tiers (<?php echo esc_html( get_woocommerce_currency_symbol() ); ?>)</th><td class="bfg-th">
 						<?php $th = $s['thresholds'] ?? $c['thresholds']; for ( $i = 0; $i < 3; $i++ ) : ?>
-							<?php echo (int) ( $i + 1 ); ?>. darilo od <input type="number" step="0.01" min="0" name="thresholds[]" value="<?php echo esc_attr( $th[ $i ] ?? '' ); ?>"> &nbsp;
+							<?php echo esc_html( array( '1st', '2nd', '3rd' )[ $i ] ); ?> gift from <input type="number" step="0.01" min="0" name="thresholds[]" value="<?php echo esc_attr( $th[ $i ] ?? '' ); ?>"> &nbsp;
 						<?php endfor; ?>
-						<p class="description">Vrednost izdelkov po popustih z DDV, brez dostave. Prazno polje = manj stopenj.</p>
+						<p class="description">Cart value after discounts, incl. VAT, excl. shipping. Leave a field empty to use fewer tiers.</p>
 					</td></tr>
-					<tr><th>Ne štej v prag</th><td>
+					<tr><th>Excluded products</th><td>
 						<textarea name="exclude" rows="5" cols="40" style="font-family:monospace"><?php echo esc_textarea( implode( "\n", (array) ( $s['exclude'] ?? $c['exclude'] ?? array() ) ) ); ?></textarea>
-						<p class="description">SKU artiklov, ki se lahko kupijo, a ne štejejo v znesek za darila (darilni boni, katalog, shaker, e-vodiči …). En SKU na vrstico, <code>*</code> = karkoli (npr. <code>DARILNI BON*</code>).</p>
+						<p class="description">Products customers can buy, but that don't count toward gift tiers (gift cards, catalogue, shaker, e-guides …). One SKU per line, <code>*</code> matches anything (e.g. <code>DARILNI BON*</code>).</p>
 						<?php
 						$ex_ids = array();
 						foreach ( (array) ( $c['exclude'] ?? array() ) as $pat ) {
@@ -280,31 +280,31 @@ function bfg_admin_page() {
 						$ex_ids = array_unique( $ex_ids );
 						if ( $ex_ids ) :
 							?>
-							<p class="description"><strong>Trenutno izključeno (<?php echo count( $ex_ids ); ?>):</strong>
+							<p class="description"><strong>Currently excluded (<?php echo count( $ex_ids ); ?>):</strong>
 							<?php echo esc_html( implode( ', ', array_filter( array_map( function ( $id ) { $p = wc_get_product( $id ); return $p ? $p->get_name() : ''; }, $ex_ids ) ) ) ); ?></p>
 						<?php endif; ?>
 					</td></tr>
-					<tr><th>Darila</th><td>
+					<tr><th>Gift options</th><td>
 						<ul class="bfg-gifts-list" id="bfg-gifts">
 							<?php foreach ( $c['gifts'] as $i => $g ) : $p = wc_get_product( $g['id'] ); if ( ! $p ) { continue; } ?>
 								<li>
 									<span class="bfg-handle">⋮⋮</span>
 									<?php echo wp_kses_post( $p->get_image( array( 40, 40 ) ) ); ?>
-									<span class="bfg-n"><?php echo esc_html( $p->get_name() ); ?><small>#<?php echo (int) $p->get_id(); ?> · <?php echo wp_kses_post( wc_price( wc_get_price_including_tax( $p, array( 'price' => $p->get_regular_price() ) ) ) ); ?> · <?php echo $p->is_in_stock() ? 'na zalogi' : '<b style="color:#b32d2e">ni na zalogi</b>'; ?></small></span>
+									<span class="bfg-n"><?php echo esc_html( $p->get_name() ); ?><small>#<?php echo (int) $p->get_id(); ?> · <?php echo wp_kses_post( wc_price( wc_get_price_including_tax( $p, array( 'price' => $p->get_regular_price() ) ) ) ); ?> · <?php echo $p->is_in_stock() ? 'in stock' : '<b style="color:#b32d2e">out of stock</b>'; ?></small></span>
 									<input type="hidden" name="gifts[<?php echo (int) $i; ?>][id]" value="<?php echo (int) $p->get_id(); ?>">
-									<input type="text" name="gifts[<?php echo (int) $i; ?>][name]" value="<?php echo esc_attr( $g['name'] ?? '' ); ?>" placeholder="Prikazno ime (neobvezno)">
-									<input type="text" name="gifts[<?php echo (int) $i; ?>][size]" value="<?php echo esc_attr( $g['size'] ?? '' ); ?>" placeholder="Velikost (neobvezno)">
-									<button type="button" class="button-link-delete bfg-rm">Odstrani</button>
+									<input type="text" name="gifts[<?php echo (int) $i; ?>][name]" value="<?php echo esc_attr( $g['name'] ?? '' ); ?>" placeholder="Display name (optional)">
+									<input type="text" name="gifts[<?php echo (int) $i; ?>][size]" value="<?php echo esc_attr( $g['size'] ?? '' ); ?>" placeholder="Size (optional)">
+									<button type="button" class="button-link-delete bfg-rm">Remove</button>
 								</li>
 							<?php endforeach; ?>
 						</ul>
 						<p style="display:flex;gap:8px;align-items:center;max-width:820px">
-							<select id="bfg-add" class="wc-product-search" style="width:420px" data-placeholder="Poišči izdelek…" data-action="woocommerce_json_search_products"></select>
-							<button type="button" class="button" id="bfg-add-btn">Dodaj darilo</button>
+							<select id="bfg-add" class="wc-product-search" style="width:420px" data-placeholder="Search for a product…" data-action="woocommerce_json_search_products"></select>
+							<button type="button" class="button" id="bfg-add-btn">Add gift</button>
 						</p>
-						<p class="description">Vrstni red spreminjaš s potegom. Ime in velikost se privzeto vzameta iz imena izdelka (del za vejico je velikost).</p>
+						<p class="description">Drag to reorder. Name and size come from the product name by default (the part after the comma is the size).</p>
 					</td></tr>
-					<tr><th>Logotip (bel)</th><td>
+					<tr><th>Logo (white)</th><td>
 						<input type="url" class="regular-text" name="logo" value="<?php echo esc_attr( $s['logo'] ?? $c['logo'] ); ?>">
 					</td></tr>
 				</table>
@@ -323,18 +323,18 @@ function bfg_admin_page() {
 				<?php
 			};
 			?>
-			<h2>Teksti akcije</h2>
-			<p class="description">Prazno polje = privzeti tekst (prikazan sivo). Ostali teksti so že prevedeni za ta trg.</p>
+			<h2>Storefront texts</h2>
+			<p class="description">Leave empty to use the default text (shown in grey). All texts are already translated for this market.</p>
 			<table class="form-table" role="presentation">
 				<?php foreach ( $main as $k ) { $row( $k ); } ?>
 			</table>
 			<details style="margin-top:12px">
-				<summary style="cursor:pointer;font-weight:600">Napredno: ostali teksti (gumbi, obvestila) – običajno ni treba spreminjati</summary>
+				<summary style="cursor:pointer;font-weight:600">More texts (buttons, notices) – usually no need to change</summary>
 				<table class="form-table" role="presentation">
 					<?php foreach ( array_keys( $labels ) as $k ) { if ( ! in_array( $k, $main, true ) ) { $row( $k ); } } ?>
 				</table>
 			</details>
-			<?php submit_button( 'Shrani' ); ?>
+			<?php submit_button( 'Save changes' ); ?>
 		</form>
 		<script>
 		jQuery(function ($) {
@@ -354,9 +354,9 @@ function bfg_admin_page() {
 				var i = $list.children().length;
 				$list.append('<li><span class="bfg-handle">⋮⋮</span><span class="bfg-n"></span>' +
 					'<input type="hidden" name="gifts[' + i + '][id]" value="' + id + '">' +
-					'<input type="text" name="gifts[' + i + '][name]" placeholder="Prikazno ime (neobvezno)">' +
-					'<input type="text" name="gifts[' + i + '][size]" placeholder="Velikost (neobvezno)">' +
-					'<button type="button" class="button-link-delete bfg-rm">Odstrani</button></li>');
+					'<input type="text" name="gifts[' + i + '][name]" placeholder="Display name (optional)">' +
+					'<input type="text" name="gifts[' + i + '][size]" placeholder="Size (optional)">' +
+					'<button type="button" class="button-link-delete bfg-rm">Remove</button></li>');
 				$list.children().last().find('.bfg-n').text(txt);
 				$s.val(null).trigger('change');
 			});
@@ -375,19 +375,19 @@ function bfg_admin_stats() {
 		return $p ? $p->get_name() : '#' . $pid;
 	};
 	?>
-	<p>Od: <?php echo esc_html( $st['since'] ); ?></p>
+	<p>Since: <?php echo esc_html( $st['since'] ); ?></p>
 	<table class="widefat striped bfg-stats" style="max-width:640px">
 		<tbody>
-			<tr><th>Odpiranja pop-upa</th><td><?php echo (int) $st['opens']; ?></td></tr>
-			<tr><th>Kliki na gumb v košarici</th><td><?php echo (int) $st['block_clicks']; ?></td></tr>
-			<tr><th>Pop-up ob »Zaključi nakup«</th><td><?php echo (int) $st['checkout_prompts']; ?></td></tr>
-			<tr><th>Naročila z darili</th><td><?php echo (int) $st['orders']; ?></td></tr>
-			<tr><th>Prihodek naročil z darili</th><td><?php echo wp_kses_post( wc_price( $st['revenue'] ) ); ?></td></tr>
+			<tr><th>Pop-up views</th><td><?php echo (int) $st['opens']; ?></td></tr>
+			<tr><th>Cart button clicks</th><td><?php echo (int) $st['block_clicks']; ?></td></tr>
+			<tr><th>Checkout reminders</th><td><?php echo (int) $st['checkout_prompts']; ?></td></tr>
+			<tr><th>Orders with gifts</th><td><?php echo (int) $st['orders']; ?></td></tr>
+			<tr><th>Revenue from orders with gifts</th><td><?php echo wp_kses_post( wc_price( $st['revenue'] ) ); ?></td></tr>
 		</tbody>
 	</table>
-	<h2>Darila</h2>
+	<h2>Gifts</h2>
 	<table class="widefat striped bfg-stats" style="max-width:640px">
-		<thead><tr><th>Darilo</th><th>Izbrano v košarici</th><th>V naročilih</th></tr></thead>
+		<thead><tr><th>Gift</th><th>Picked in cart</th><th>In orders</th></tr></thead>
 		<tbody>
 		<?php
 		$ids = array_unique( array_merge( wp_list_pluck( $c['gifts'], 'id' ), array_keys( (array) $st['selections'] ), array_keys( (array) $st['order_gifts'] ) ) );
@@ -397,10 +397,10 @@ function bfg_admin_stats() {
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin-top:16px" onsubmit="return confirm('Ponastavim statistiko?')">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin-top:16px" onsubmit="return confirm('Reset all stats?')">
 		<input type="hidden" name="action" value="bfg_reset_stats">
 		<?php wp_nonce_field( 'bfg_reset_stats' ); ?>
-		<button class="button">Ponastavi statistiko</button>
+		<button class="button">Reset stats</button>
 	</form>
 	<?php
 }
