@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biostile Gifts
  * Description: Free gifts of choice (1 / 2 / 3 gifts by spend tier) – gift box in the FunnelKit side cart and a pop-up. Settings: Biostile Gifts menu.
- * Version: 1.2.3
+ * Version: 1.2.4
  * Author: Biostile
  * Requires Plugins: woocommerce
  * Text Domain: biostile-gifts
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BFG_VERSION', '1.2.3' );
+define( 'BFG_VERSION', '1.2.4' );
 define( 'BFG_FILE', __FILE__ );
 define( 'BFG_URL', plugin_dir_url( __FILE__ ) );
 define( 'BFG_REPO', 'https://github.com/ferrabloom/biostile-bf-gifts/' );
@@ -665,7 +665,13 @@ function bfg_render_cart_block( $mode = 'cart' ) {
 	<?php
 }
 add_action( 'fkcart_before_cart_items', 'bfg_render_cart_block', 5 );
-// Način B (stara predloga brez FunnelKit, npr. HR): isti blok na strani košarice.
+// Način B (stara predloga brez FunnelKit, npr. HR): isti blok v klasični mini košarici (posodobi se s fragmenti).
+add_action( 'woocommerce_before_mini_cart', function () {
+	echo '<div class="bfgb-mini">';
+	bfg_render_cart_block( 'popup' );
+	echo '</div>';
+}, 5 );
+// Način B: isti blok na strani košarice.
 add_action( 'woocommerce_before_cart_table', function () {
 	echo '<div class="bfgb-page">';
 	bfg_render_cart_block( 'popup' );

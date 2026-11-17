@@ -177,3 +177,5 @@ body.woocommerce-checkout .wfacp_order_summary_container .cart_item:has(span.bfg
 
 /* Način B: blok na strani košarice */
 .bfgb-page .bfgb{margin:0 0 20px;max-width:640px}
+.bfgb-mini .bfgb{margin:0 0 12px}
+.bfgb-mini:empty{display:none}
