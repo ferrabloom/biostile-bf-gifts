@@ -169,12 +169,21 @@
 	$(document.body).on('added_to_cart wc-blocks_added_to_cart', function () { load(false); });
 	// Spremembe v side cartu – strežnik po potrebi odstrani odvečna darila.
 	$(document.body).on('removed_from_cart fkcart_quantity_updated updated_cart_totals', function () { load(false); });
+	// Način B: po spremembi na strani košarice osveži tudi mini košarico (blok z zneskom).
+	if (D.mode === 'popup') $(document.body).on('updated_cart_totals', function () { $(document.body).trigger('wc_fragment_refresh'); });
 	// Klasično dodajanje (produktna stran z reloadom) – strežnik nastavi zastavico.
 	$(function () {
 		var hasItems = document.cookie.indexOf('woocommerce_items_in_cart') > -1;
 		if (D.mode === 'popup' && hasItems) load(false);
 		// FunnelKit hrani HTML košarice v brskalniku: če je bila košarica napolnjena pred začetkom akcije,
 		// bloka ni – košarico enkrat osvežimo, da se blok izriše.
+		// Način B: klasična mini košarica je v brskalniku shranjena (sessionStorage) – če je stara
+		// in nima bloka, jo enkrat osvežimo.
+		if (D.mode === 'popup' && hasItems) {
+			setTimeout(function () {
+				if ($('.widget_shopping_cart_content').length && !$('.bfgb-mini').length) $(document.body).trigger('wc_fragment_refresh');
+			}, 800);
+		}
 		if (D.mode === 'cart' && hasItems) {
 			setTimeout(function () {
 				if ($('#fkcart-modal').length && !$('.bfgb').length) $(document.body).trigger('fkcart_update_side_cart', [false]);
